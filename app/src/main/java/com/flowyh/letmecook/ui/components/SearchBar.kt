@@ -8,8 +8,12 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -21,6 +25,7 @@ enum class SearchBarState {
   OPENED
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
   modifier: Modifier = Modifier,
@@ -29,12 +34,25 @@ fun SearchBar(
   onClose: () -> Unit,
   onSearch: (String) -> Unit,
 ) {
+  val textFieldFocusRequester = LocalFocusManager.current
+
+  val keyboardController = LocalSoftwareKeyboardController.current
+
+  val onSearchClicked = {
+    keyboardController?.hide()
+    textFieldFocusRequester.clearFocus()
+    onSearch(text)
+  }
+
   Surface(
     modifier = modifier,
   ) {
     TextField(
       modifier = Modifier
         .fillMaxWidth(),
+      colors = TextFieldDefaults.colors(
+        cursorColor = Color.Transparent
+      ),
       value = text,
       onValueChange = { onTextChange(it) },
       placeholder = { Text(
@@ -49,7 +67,7 @@ fun SearchBar(
         IconButton(
           modifier = Modifier.alpha(0.9f),
           onClick = {
-            onSearch(text)
+            onSearchClicked()
           }
         ) {
           Icon(
@@ -77,7 +95,9 @@ fun SearchBar(
         imeAction = ImeAction.Search
       ),
       keyboardActions = KeyboardActions(
-        onSearch = { onSearch(text) }
+        onSearch = {
+          onSearchClicked()
+        }
       )
     )
   }

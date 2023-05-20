@@ -14,7 +14,7 @@ class RecipeListViewModel(
 
   // TODO: replace with real data fetched from firebase
   //       DataRepo should be passed as a constructor parameter
-  private val _recipesList = (0..120).map {
+  private var _recipesList = (0..120).map {
     createRecipe(
       title = "Recipe $it",
       time = "30 min",

@@ -9,12 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.flowyh.letmecook.ui.components.*
 import com.flowyh.letmecook.viewmodels.HomeScreenViewModel
-import com.flowyh.letmecook.viewmodels.RecipeFiltersViewModel
-import com.flowyh.letmecook.viewmodels.RecipeListViewModel
-import com.flowyh.letmecook.viewmodels.SearchBarViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -56,11 +52,12 @@ fun HomeScreen(
     LazyColumn(
       modifier = Modifier
         .fillMaxSize(),
-      state = listState
+      state = listState,
+      verticalArrangement = Arrangement.spacedBy(1.dp)
     ) {
       items(120) { item ->
         RecipeListItem(
-          recipe = recipesList.value[item]!!,
+          recipe = recipesList.value[item],
           onRecipeClick = {},
           imageOnLeft = item % 2 == 0
         )
@@ -69,18 +66,3 @@ fun HomeScreen(
   }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-  val searchBarViewModel = SearchBarViewModel()
-  val recipeListViewModel: RecipeListViewModel = viewModel()
-  val recipeFiltersViewModel: RecipeFiltersViewModel = viewModel()
-
-  val homeScreenViewModel = HomeScreenViewModel(
-    searchBarViewModel,
-    recipeListViewModel,
-    recipeFiltersViewModel
-  )
-
-  HomeScreen(homeScreenViewModel)
-}

@@ -2,15 +2,12 @@ package com.flowyh.letmecook.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.flowyh.letmecook.ui.theme.spacing
 
 @Composable
 fun TextWithIcon(
@@ -19,7 +16,7 @@ fun TextWithIcon(
   iconModifier: Modifier = Modifier,
   text: String,
   icon: ImageVector,
-  iconDescription: String,
+  iconContentDescription: String,
 ) {
   Row(
     modifier = modifier,
@@ -27,7 +24,7 @@ fun TextWithIcon(
   ) {
     Icon(
       imageVector = icon,
-      contentDescription = iconDescription,
+      contentDescription = iconContentDescription,
       modifier = iconModifier
     )
     Box(
