@@ -60,7 +60,7 @@ fun HomeScreen(
     ) {
       items(120) { item ->
         RecipeListItem(
-          recipe = recipesList.value[item],
+          recipe = recipesList.value[item]!!,
           onRecipeClick = {},
           imageOnLeft = item % 2 == 0
         )
