@@ -16,7 +16,7 @@ class RecipeListViewModel(
   //       DataRepo should be passed as a constructor parameter
   private val _recipesList = (0..120).map {
     createRecipe(
-      title = "Recipe title",
+      title = "Recipe $it",
       time = "30 min",
       difficulty = 3,
       servings = 3,
