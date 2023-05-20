@@ -66,7 +66,7 @@ fun RecipeListItem(
   modifier: Modifier = Modifier,
   recipe: Recipe,
   onRecipeClick: (Recipe) -> Unit,
-  imageOnLeft: Boolean = true,
+  imageOnLeft: Boolean = true
 ) {
   val halfOfScreen: Int = LocalConfiguration.current.screenWidthDp / 2
 
@@ -74,9 +74,6 @@ fun RecipeListItem(
     modifier = modifier,
     shape = MaterialTheme.shapes.medium,
     elevation = CardDefaults.cardElevation(4.dp),
-    colors = CardDefaults.cardColors(
-      containerColor = MaterialTheme.colorScheme.surface,
-    ),
   ) {
     Row(
       modifier = Modifier
@@ -102,7 +99,8 @@ fun RecipeListItem(
         )
       Column(
         modifier = Modifier
-          .fillMaxSize(if (imageOnLeft) 1f else 0.5f),
+          .fillMaxWidth(if (imageOnLeft) 1f else 0.5f)
+          .fillMaxHeight(),
         verticalArrangement = Arrangement.SpaceEvenly
       ) {
         TextWithIcon(
@@ -172,19 +170,4 @@ fun RecipeListItem(
         )
     }
   }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RecipeListItemPreview() {
-  RecipeListItem(
-    recipe = Recipe(
-      title = "Recipe title",
-      time = "30 min",
-      difficulty = 3,
-      servings = 3,
-      details = RecipeDetails("test")
-    ),
-    onRecipeClick = {}
-  )
 }

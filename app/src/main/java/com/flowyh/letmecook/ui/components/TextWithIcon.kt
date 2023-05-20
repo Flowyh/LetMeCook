@@ -15,11 +15,11 @@ import com.flowyh.letmecook.ui.theme.spacing
 @Composable
 fun TextWithIcon(
   modifier: Modifier = Modifier,
+  textModifier: Modifier = Modifier,
+  iconModifier: Modifier = Modifier,
   text: String,
   icon: ImageVector,
   iconDescription: String,
-  textModifier: Modifier = Modifier,
-  iconModifier: Modifier = Modifier,
 ) {
   Row(
     modifier = modifier,

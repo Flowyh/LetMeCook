@@ -9,6 +9,9 @@ import com.flowyh.letmecook.models.RecipeDetails
 class RecipeListViewModel(
   savedStateHandle: SavedStateHandle
 ): ViewModel() {
+
+  // TODO: replace with real data fetched from firebase
+  //       DataRepo should be passed as a constructor parameter
   private val _recipesList = (0..120).map {
     Recipe(
       title = "Recipe title",

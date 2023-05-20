@@ -2,5 +2,6 @@
     <string name="app_name">LetMeCook</string>
     <string name="top_bar_search_content_description">search</string>
     <string name="top_bar_profile_content_description">profile</string>
-    <string name="application_name">Let Me Cook</string>
+    <string name="top_bar_search_hint">Search recipes</string>
+    <string name="top_app_bar_close_content_description">close</string>
 </resources>
