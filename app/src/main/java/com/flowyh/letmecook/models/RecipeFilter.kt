@@ -1,6 +1,7 @@
 package com.flowyh.letmecook.models
 
 enum class FilterType {
+  ALL,
   CUISINE,
   DIET,
   COURSE,

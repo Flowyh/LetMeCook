@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 class HomeScreenViewModel(
   savedStateHandle: SavedStateHandle = SavedStateHandle(),
   recipeListViewModel: RecipeListViewModel = RecipeListViewModel(savedStateHandle),
-  recipeFiltersViewModel: RecipeFiltersViewModel = RecipeFiltersViewModel(savedStateHandle)
+  val recipeFiltersViewModel: RecipeFiltersViewModel =
+    RecipeFiltersViewModel(savedStateHandle, recipeListViewModel::filterRecipeList)
 ) : ViewModel() {
   val recipes = recipeListViewModel.recipes
   val filters = recipeFiltersViewModel.filters

@@ -29,6 +29,23 @@ data class Recipe internal constructor(
       it.contains(query, ignoreCase = true)
     }
   }
+
+  // TODO: replace by calling to the db for
+  //       recipes with that filter?
+  fun doesMatchFilter(query: List<String>): Boolean {
+    val filterNames = mutableListOf<String>()
+    for (filter in details.filters) {
+      filterNames += filter.name
+    }
+
+    for (q in query) {
+      if (filterNames.contains(q))
+        return true
+    }
+
+    return false
+  }
+
 }
 
 fun createRecipe(

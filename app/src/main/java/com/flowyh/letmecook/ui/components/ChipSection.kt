@@ -11,20 +11,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.flowyh.letmecook.models.RecipeFilter
 import com.flowyh.letmecook.ui.theme.spacing
-
-data class Filter(
-  val name: String,
-  val selected: Boolean,
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChipsSection(
   modifier: Modifier = Modifier,
-  filters: List<Filter>,
-  selectedFilters: List<Filter>,
-  onFilterSelected: (Filter) -> Unit
+  filters: List<RecipeFilter>,
+  selectedFilters: List<RecipeFilter>,
+  onFilterSelected: (RecipeFilter) -> Unit
 ) {
   Surface(
     color = MaterialTheme.colorScheme.surface,

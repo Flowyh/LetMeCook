@@ -20,10 +20,10 @@ fun HomeScreen(
   val scope = rememberCoroutineScope()
   val listState = rememberLazyListState()
 
-  fun onFilterClick() {}
-
   val recipesList = homeScreenViewModel.recipes.collectAsStateWithLifecycle()
   val filters = homeScreenViewModel.filters.collectAsStateWithLifecycle()
+  val _activeFilters = homeScreenViewModel.recipeFiltersViewModel
+                        .activeFilters.collectAsStateWithLifecycle()
 
   val navItems = bottomNavItems(
     onTodayRecipeClick = {},
@@ -46,8 +46,10 @@ fun HomeScreen(
         .height(32.dp)
         .fillMaxWidth(),
       filters = filters.value,
-      selectedFilters = listOf(filters.value[0]),
-      onFilterSelected = { onFilterClick() }
+      selectedFilters = _activeFilters.value,
+      onFilterSelected = {
+        homeScreenViewModel.recipeFiltersViewModel.onFilterSelected(it)
+      }
     )
     LazyColumn(
       modifier = Modifier

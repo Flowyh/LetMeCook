@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.flowyh.letmecook.models.FilterType
+import com.flowyh.letmecook.models.RecipeFilter
+import com.flowyh.letmecook.models.createRecipeFilter
 import com.flowyh.letmecook.ui.components.ChipsSection
-import com.flowyh.letmecook.ui.components.Filter
 
 @Preview(showBackground = true)
 @Composable
@@ -15,14 +17,14 @@ fun ChipsSectionPreview() {
   ChipsSection(
     modifier = Modifier.height(32.dp).fillMaxWidth(),
     filters = listOf(
-      Filter("All", true),
-      Filter("Breakfast", false),
-      Filter("Lunch", false),
-      Filter("Dinner", false),
-      Filter("Snack", false),
-      Filter("Dessert", false),
+      createRecipeFilter(FilterType.ALL, "All")!!,
+      createRecipeFilter(FilterType.COURSE, "Breakfast")!!,
+      createRecipeFilter(FilterType.COURSE, "Lunch")!!,
+      createRecipeFilter(FilterType.COURSE, "Dinner")!!,
+      createRecipeFilter(FilterType.COURSE, "Snack")!!,
+      createRecipeFilter(FilterType.COURSE, "Dessert")!!
     ),
-    selectedFilters = listOf(Filter("All", true)),
+    selectedFilters = listOf(createRecipeFilter(FilterType.COURSE, "All")!!),
     onFilterSelected = { }
   )
 }
