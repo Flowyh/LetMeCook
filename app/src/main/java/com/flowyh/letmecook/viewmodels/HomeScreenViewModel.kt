@@ -13,6 +13,6 @@ class HomeScreenViewModel(
 
   val searchBarViewModel = SearchBarViewModel(
     savedStateHandle,
-    recipeListViewModel.recipes
+    recipeListViewModel::updateRecipeList
   )
 }

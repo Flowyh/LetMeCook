@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class SearchBarViewModel(
   private val savedStateHandle: SavedStateHandle,
-  private val recipeList: StateFlow<List<Recipe>> // TODO: Should it be a StateFlow?
+  private val updateRecipeList: (String) -> Unit
 ) {
   val searchBarState = savedStateHandle.getStateFlow("searchBarState", SearchBarState.CLOSED)
   val searchTextState = savedStateHandle.getStateFlow("searchTextState", "")
@@ -23,6 +23,6 @@ class SearchBarViewModel(
 
   fun onSearch() {
     Log.d("SearchBarViewModel", "onSearch: ${searchTextState.value}")
-    // TODO: search logic
+    updateRecipeList(searchTextState.value)
   }
 }

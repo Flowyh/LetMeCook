@@ -55,7 +55,7 @@ fun HomeScreen(
       state = listState,
       verticalArrangement = Arrangement.spacedBy(1.dp)
     ) {
-      items(120) { item ->
+      items(recipesList.value.size) { item ->
         RecipeListItem(
           recipe = recipesList.value[item],
           onRecipeClick = {},
@@ -66,3 +66,10 @@ fun HomeScreen(
   }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+  val homeScreenViewModel = HomeScreenViewModel()
+
+  HomeScreen(homeScreenViewModel)
+}

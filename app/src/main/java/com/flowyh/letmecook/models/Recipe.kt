@@ -9,7 +9,27 @@ data class Recipe internal constructor(
   val servings: Int,
   val smallImage: Int,
   val details: RecipeDetails,
-)
+) {
+  fun doesMatchDifficulty(query: String): Boolean {
+    return when (query.lowercase()) {
+      "easy"    -> difficulty == 1
+      "medium"  -> difficulty == 2
+      "hard"    -> difficulty == 3
+      else      -> false
+    }
+  }
+
+  fun doesMatchQuery(query: String): Boolean {
+    val matchingCombinations: List<String> = listOf(
+      title,
+      title.replace(" ", ""),
+    )
+
+    return matchingCombinations.any {
+      it.contains(query, ignoreCase = true)
+    }
+  }
+}
 
 fun createRecipe(
   title: String,

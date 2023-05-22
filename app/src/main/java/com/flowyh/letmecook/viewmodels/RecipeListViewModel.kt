@@ -9,7 +9,7 @@ import com.flowyh.letmecook.models.createRecipeIngredient
 
 
 class RecipeListViewModel(
-  savedStateHandle: SavedStateHandle
+  private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
   // TODO: replace with real data fetched from firebase
@@ -35,5 +35,12 @@ class RecipeListViewModel(
     )!!
   }
 
-  val recipes = savedStateHandle.getStateFlow("recipes", _recipesList)
+  var recipes = savedStateHandle.getStateFlow("recipes", _recipesList)
+
+  // TODO: fetch data from firebase before filtering
+  fun updateRecipeList(query: String) {
+    val filteredRecipes = _recipesList.filter { it.doesMatchQuery(query) }
+    savedStateHandle["recipes"] = filteredRecipes
+  }
+
 }
