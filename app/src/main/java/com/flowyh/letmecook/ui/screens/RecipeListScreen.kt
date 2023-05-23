@@ -36,7 +36,13 @@ fun RecipeListMainScreen(
   val activeFilters = viewModel.activeFilters.collectAsStateWithLifecycle()
 
   val navItems = bottomNavItems(
-    onTodayRecipeClick = {},
+    onTodayRecipeClick = {
+      navigator.navigate(
+        RecipeScreenDestination(
+          recipe = viewModel.recipeViewModel.getRecipeOfTheDay()
+        )
+      )
+    },
     onShoppingListClick = {},
     onHomeClick = {
       scope.launch {
@@ -44,7 +50,13 @@ fun RecipeListMainScreen(
       }
     },
     onFavoritesClick = {},
-    onRandomClick = {}
+    onRandomClick = {
+      navigator.navigate(
+        RecipeScreenDestination(
+          recipe = viewModel.recipeViewModel.getRandomRecipe()
+        )
+      )
+    }
   )
 
   DefaultScreen(

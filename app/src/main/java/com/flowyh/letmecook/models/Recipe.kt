@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.flowyh.letmecook.R
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
+import java.util.UUID
 
 @Parcelize
 data class Recipe internal constructor(
@@ -13,6 +14,7 @@ data class Recipe internal constructor(
   val servings: Int,
   val smallImage: Int,
   val details: RecipeDetails,
+  val id: String
 ) : Serializable, Parcelable {
   fun doesMatchDifficulty(query: String): Boolean {
     return when (query.lowercase()) {
@@ -59,6 +61,7 @@ fun createRecipe(
   servings: Int,
   smallImage: Int = R.drawable.ic_launcher_background,
   details: RecipeDetails,
+  id: String = UUID.randomUUID().toString()
 ): Recipe? {
   if (title.isEmpty() && time.isEmpty())
     return null
@@ -69,5 +72,5 @@ fun createRecipe(
   if (servings < 1 || servings > 30)
     return null
 
-  return Recipe(title, time, difficulty, servings, smallImage, details)
+  return Recipe(title, time, difficulty, servings, smallImage, details, id)
 }

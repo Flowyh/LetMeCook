@@ -11,7 +11,7 @@ class MainBundledViewModel @Inject constructor(
   private val repository: FirestoreRepository,
   private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-  private val recipeViewModel: RecipeViewModel = RecipeViewModel(savedStateHandle)
+  val recipeViewModel: RecipeViewModel = RecipeViewModel(savedStateHandle)
 
   val recipes = recipeViewModel.recipes
   val filters = recipeViewModel.filters

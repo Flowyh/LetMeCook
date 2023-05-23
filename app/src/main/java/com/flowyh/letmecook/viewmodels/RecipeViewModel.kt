@@ -3,6 +3,8 @@ package com.flowyh.letmecook.viewmodels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.flowyh.letmecook.models.*
+import java.util.*
+import kotlin.random.Random.Default.nextInt
 
 
 class RecipeViewModel(
@@ -57,7 +59,7 @@ class RecipeViewModel(
           "Throw me some numbers",
           "Super loooooooooooooooooooong looooooooooooooooooooooooooooooooooooong liiiiiiiiiiiiiiiiiiiiine"
         ),
-        rating = 4.5f,
+        rating = nextInt(1, 11).toFloat() / 2f,
         filters =
           if (it % 5 == 0) {
             listOf(
@@ -91,7 +93,7 @@ class RecipeViewModel(
     savedStateHandle["recipes"] = filteredRecipes
   }
 
-  fun filterRecipeList(filters: List<RecipeFilter>) {
+  private fun filterRecipeList(filters: List<RecipeFilter>) {
     val filtersNames: List<String> = filters.map { it.name }
 
     if (filtersNames.contains("All")) {
@@ -117,8 +119,7 @@ class RecipeViewModel(
   )
 
   val filters = savedStateHandle.getStateFlow("filters", _filters)
-  val activeFilters =
-    savedStateHandle.getStateFlow("activeFilters", listOf(_filters[0]))
+  val activeFilters = savedStateHandle.getStateFlow("activeFilters", listOf(_filters[0]))
 
   fun onFilterSelected(filter: RecipeFilter) {
     var currentFilters: List<RecipeFilter> = activeFilters.value
@@ -142,4 +143,34 @@ class RecipeViewModel(
 
     filterRecipeList(activeFilters.value)
   }
+
+  // Navigation bar functionality
+
+  // TODO: move this functions to the navigation bar
+  //       handler / pass it as a constructor parameter
+  // TODO: fetch all recipes from firebase
+  fun getRandomRecipe(): Recipe {
+    return _recipesList.random()
+  }
+
+  // TODO: fetch recipes from firebase
+  fun getRecipeOfTheDay(): Recipe {
+    val daysFromEpoch: Long = Calendar.getInstance().timeInMillis / (1000 * 60 * 60 * 24)
+    val index: Int = (daysFromEpoch % _recipesList.size).toInt()
+
+    return _recipesList[index]
+  }
+
+  // TODO: replace by getting starred recipes from room
+  //       favourite recipes are a sepatare list (from
+  //       the main recipe list)
+  fun setFavouriteRecipes() {
+    val starredRecipes: List<Recipe> = _recipesList.filter {
+      it.details.rating > 3.5f
+    }
+
+    // sort descending by rating
+    savedStateHandle["recipes"] = starredRecipes.sortedBy { it.details.rating }.reversed()
+  }
+
 }
