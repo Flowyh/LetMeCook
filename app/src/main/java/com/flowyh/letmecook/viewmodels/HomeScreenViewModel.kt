@@ -43,7 +43,7 @@ class HomeScreenViewModel(
         )!!,
       ),
       steps = listOf(
-        "Cook the living shit out of it",
+        "Cook it",
         "Throw me some numbers",
         "Super loooooooooooooooooooong looooooooooooooooooooooooooooooooooooong liiiiiiiiiiiiiiiiiiiiine"
       ),
