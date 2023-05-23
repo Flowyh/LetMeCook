@@ -9,23 +9,23 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.flowyh.letmecook.ui.components.*
-import com.flowyh.letmecook.viewmodels.HomeScreenViewModel
+import com.flowyh.letmecook.viewmodels.MainBundledViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-  homeScreenViewModel: HomeScreenViewModel,
+  homeScreenViewModel: MainBundledViewModel,
 ) {
   val scope = rememberCoroutineScope()
   val listState = rememberLazyListState()
 
   val recipesList = homeScreenViewModel.recipes.collectAsStateWithLifecycle()
   val filters = homeScreenViewModel.filters.collectAsStateWithLifecycle()
-  val _activeFilters = homeScreenViewModel.recipeFiltersViewModel
-                        .activeFilters.collectAsStateWithLifecycle()
+  val activeFilters = homeScreenViewModel.activeFilters.collectAsStateWithLifecycle()
 
   val navItems = bottomNavItems(
     onTodayRecipeClick = {},
@@ -48,9 +48,9 @@ fun HomeScreen(
         .height(32.dp)
         .fillMaxWidth(),
       filters = filters.value,
-      selectedFilters = _activeFilters.value,
+      selectedFilters = activeFilters.value,
       onFilterSelected = {
-        homeScreenViewModel.recipeFiltersViewModel.onFilterSelected(it)
+        homeScreenViewModel.onFilterSelected(it)
       }
     )
     LazyColumn(
@@ -68,12 +68,4 @@ fun HomeScreen(
       }
     }
   }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-  val homeScreenViewModel = HomeScreenViewModel()
-
-  HomeScreen(homeScreenViewModel)
 }

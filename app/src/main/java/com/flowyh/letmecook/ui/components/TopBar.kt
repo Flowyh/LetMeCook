@@ -3,15 +3,13 @@ package com.flowyh.letmecook.ui.components
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.flowyh.letmecook.R
 
 // TODO: better onEvent names
@@ -26,14 +24,12 @@ fun TopAppBarWithSearchBar(
   onSearchBarClose: () -> Unit,
   onSearchBarSearch: (String) -> Unit,
   onSearchClick: () -> Unit,
-  onProfileClick: () -> Unit
 ){
   when (searchBarState) {
     SearchBarState.CLOSED -> {
       DefaultTopAppBar(
         scrollBehavior = scrollBehavior,
         onSearchClick = onSearchClick,
-        onProfileClick = onProfileClick,
         modifier = modifier
       )
     }
@@ -54,8 +50,7 @@ fun TopAppBarWithSearchBar(
 fun DefaultTopAppBar(
   modifier: Modifier = Modifier,
   scrollBehavior: TopAppBarScrollBehavior,
-  onSearchClick: () -> Unit,
-  onProfileClick: () -> Unit
+  onSearchClick: () -> Unit
 ) {
   TopAppBar(
     modifier = modifier,
@@ -65,9 +60,6 @@ fun DefaultTopAppBar(
     actions = {
       IconButton(onClick = { onSearchClick() }) {
         Icon(Icons.Default.Search, stringResource(R.string.top_bar_search_content_description))
-      }
-      IconButton(onClick = { onProfileClick() }) {
-        Icon(Icons.Default.Person, stringResource(R.string.top_bar_profile_content_description))
       }
     },
     colors = if (!isSystemInDarkTheme())
@@ -88,8 +80,11 @@ fun DefaultTopAppBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeTopBar(
+fun TopBarWithoutSearchbar(
   modifier: Modifier = Modifier,
+  actionIcon: ImageVector,
+  actionIconContentDescription: String,
+  onActionClick: () -> Unit
 ) {
   val scrollBehavior: TopAppBarScrollBehavior =
     TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -99,8 +94,8 @@ fun RecipeTopBar(
       Text(stringResource(R.string.app_name))
     },
     actions = {
-      IconButton(onClick = { }) {
-        Icon(Icons.Default.ArrowBack, stringResource(R.string.top_bar_search_content_description))
+      IconButton(onClick = { onActionClick() }) {
+        Icon(actionIcon, actionIconContentDescription)
       }
     },
     colors = TopAppBarDefaults.topAppBarColors(

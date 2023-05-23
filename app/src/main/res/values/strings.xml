@@ -5,4 +5,5 @@
     <string name="top_bar_search_hint">Search recipes</string>
     <string name="top_app_bar_close_content_description">close</string>
     <string name="rating_star_content_description">rating star</string>
+    <string name="top_app_bar_go_back_content_description">go back</string>
 </resources>

@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModel
 import com.flowyh.letmecook.models.*
 
 
-class RecipeListViewModel(
+class RecipeViewModel(
   private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
+
+  // Recipe list
 
   // TODO: replace with real data fetched from firebase
   //       DataRepo should be passed as a constructor parameter
@@ -83,4 +85,43 @@ class RecipeListViewModel(
     savedStateHandle["recipes"] = filteredRecipes
   }
 
+  // Filtering recipes
+
+  // TODO: replace with real data fetched from firebase
+  //       DataRepo should be passed as a constructor parameter
+  private val _filters = listOf(
+    createRecipeFilter(FilterType.ALL, "All")!!,
+    createRecipeFilter(FilterType.COURSE, "Breakfast")!!,
+    createRecipeFilter(FilterType.COURSE, "Lunch")!!,
+    createRecipeFilter(FilterType.COURSE, "Dinner")!!,
+    createRecipeFilter(FilterType.COURSE, "Snack")!!,
+    createRecipeFilter(FilterType.COURSE, "Dessert")!!
+  )
+
+  val filters = savedStateHandle.getStateFlow("filters", _filters)
+  val activeFilters =
+    savedStateHandle.getStateFlow("activeFilters", listOf(_filters[0]))
+
+  fun onFilterSelected(filter: RecipeFilter) {
+    var currentFilters: List<RecipeFilter> = activeFilters.value
+
+    if (filter.name == "All")
+      savedStateHandle["activeFilters"] = listOf(_filters[0])
+    else {
+      if (currentFilters.contains(filter)) {
+        if (currentFilters.size == 1)
+          savedStateHandle["activeFilters"] = listOf(_filters[0])
+        else
+          savedStateHandle["activeFilters"] = currentFilters.filter { it != filter }
+
+      } else {
+        if (currentFilters.contains(_filters[0]))
+          currentFilters = currentFilters.filter { it != _filters[0] }
+
+        savedStateHandle["activeFilters"] = currentFilters + filter
+      }
+    }
+
+    filterRecipeList(activeFilters.value)
+  }
 }

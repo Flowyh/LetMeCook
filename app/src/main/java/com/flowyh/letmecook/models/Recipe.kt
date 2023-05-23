@@ -1,7 +1,11 @@
 package com.flowyh.letmecook.models
 
+import android.os.Parcelable
 import com.flowyh.letmecook.R
+import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
+@Parcelize
 data class Recipe internal constructor(
   val title: String,
   val time: String,
@@ -9,7 +13,7 @@ data class Recipe internal constructor(
   val servings: Int,
   val smallImage: Int,
   val details: RecipeDetails,
-) {
+) : Serializable, Parcelable {
   fun doesMatchDifficulty(query: String): Boolean {
     return when (query.lowercase()) {
       "easy"    -> difficulty == 1

@@ -1,5 +1,9 @@
 package com.flowyh.letmecook.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import java.io.Serializable
+
 enum class FilterType {
   ALL,
   CUISINE,
@@ -7,10 +11,11 @@ enum class FilterType {
   COURSE,
 }
 
+@Parcelize
 data class RecipeFilter internal constructor(
   val name: String,
   val type: FilterType,
-)
+) : Serializable, Parcelable
 
 fun createRecipeFilter(
   type: FilterType,

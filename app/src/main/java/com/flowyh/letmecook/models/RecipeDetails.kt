@@ -1,7 +1,11 @@
 package com.flowyh.letmecook.models
 
+import android.os.Parcelable
 import com.flowyh.letmecook.R
+import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
+@Parcelize
 data class RecipeDetails internal constructor(
   val bigImage: Int,
   val description: String,
@@ -9,7 +13,7 @@ data class RecipeDetails internal constructor(
   val ingredients: List<RecipeIngredient>,
   val rating: Float,
   val filters: List<RecipeFilter>
-)
+) : Serializable, Parcelable
 
 fun createRecipeDetails(
   bigImage: Int = R.drawable.ic_launcher_background,

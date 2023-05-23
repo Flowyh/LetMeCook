@@ -2,9 +2,7 @@ package com.flowyh.letmecook.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import com.flowyh.letmecook.models.Recipe
 import com.flowyh.letmecook.ui.components.SearchBarState
-import kotlinx.coroutines.flow.StateFlow
 
 class SearchBarViewModel(
   private val savedStateHandle: SavedStateHandle,

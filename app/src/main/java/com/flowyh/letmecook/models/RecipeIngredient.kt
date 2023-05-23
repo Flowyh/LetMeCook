@@ -1,5 +1,9 @@
 package com.flowyh.letmecook.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import java.io.Serializable
+
 enum class IngredientType {
   VEGETABLE,
   FRUIT,
@@ -11,12 +15,13 @@ enum class IngredientType {
   // TODO: Find types for pasta, rice etc.
 }
 
+@Parcelize
 data class RecipeIngredient internal constructor(
   val name: String,
   val quantity: Double,
   val unit: String,
   val type: IngredientType
-)
+) : Serializable, Parcelable
 
 fun createRecipeIngredient(
   name: String,

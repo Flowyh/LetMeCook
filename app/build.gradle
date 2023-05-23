@@ -2,6 +2,10 @@ plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
     id "com.google.devtools.ksp" version "1.8.10-1.0.9"
+
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 kotlin {
@@ -104,4 +108,15 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     //noinspection GradleDependency
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+
+}
+
+hilt {
+    enableAggregatingTask = true
 }
