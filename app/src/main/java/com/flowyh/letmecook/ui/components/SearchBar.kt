@@ -27,7 +27,7 @@ enum class SearchBarState {
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SearchBar(
+fun TopAppSearchBar(
   modifier: Modifier = Modifier,
   text: String,
   onTextChange: (String) -> Unit,
@@ -106,7 +106,7 @@ fun SearchBar(
 @Preview
 @Composable
 fun SearchBarPreview() {
-  SearchBar(
+  TopAppSearchBar(
     text = "Test!",
     onTextChange = {},
     onClose = {},

@@ -6,13 +6,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
+import kotlin.math.ceil
 
 @Composable
 fun BottomNavigationBar(
   modifier: Modifier = Modifier,
   items: List<BottomNavigationBarItem>
 ) {
-  var selectedIndex by remember { mutableStateOf(0) }
+  var selectedIndex by remember { mutableStateOf((items.size / 2.0).toInt()) }
 
   NavigationBar(
     modifier = modifier
@@ -70,5 +72,13 @@ fun bottomNavItems(
       contentDescription = "random",
       onClick = { onRandomClick() }
     ),
+  )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BottomNavigationBarPreview() {
+  BottomNavigationBar(
+    items = bottomNavItems({}, {}, {}, {}, {})
   )
 }

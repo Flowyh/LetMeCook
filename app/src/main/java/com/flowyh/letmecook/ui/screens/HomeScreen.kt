@@ -3,6 +3,7 @@ package com.flowyh.letmecook.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -13,6 +14,7 @@ import com.flowyh.letmecook.ui.components.*
 import com.flowyh.letmecook.viewmodels.HomeScreenViewModel
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
   homeScreenViewModel: HomeScreenViewModel,

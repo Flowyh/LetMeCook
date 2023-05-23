@@ -93,12 +93,12 @@ fun LetMeCookTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composa
   }
 
   val view = LocalView.current
-  val statusBarColor = colors.background.toArgb()
+  val statusBarColor = colors.primaryContainer.toArgb()
   if (!view.isInEditMode) {
     SideEffect {
       val window = (view.context as Activity).window
       window.statusBarColor = statusBarColor
-      WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+      WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
     }
   }
 }
