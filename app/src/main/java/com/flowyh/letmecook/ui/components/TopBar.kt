@@ -80,29 +80,38 @@ fun DefaultTopAppBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBarWithoutSearchbar(
+fun TopBarWithoutSearchbarWithNavigation(
   modifier: Modifier = Modifier,
-  actionIcon: ImageVector,
-  actionIconContentDescription: String,
-  onActionClick: () -> Unit
+  scrollBehavior: TopAppBarScrollBehavior,
+  navigationIcon: ImageVector,
+  navigationIconContentDescription: String,
+  onNavigationClick: () -> Unit
 ) {
-  val scrollBehavior: TopAppBarScrollBehavior =
-    TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
   TopAppBar(
     modifier = modifier,
     title = {
       Text(stringResource(R.string.app_name))
     },
-    actions = {
-      IconButton(onClick = { onActionClick() }) {
-        Icon(actionIcon, actionIconContentDescription)
+    navigationIcon = {
+      IconButton(onClick = { onNavigationClick() }) {
+        Icon(
+          navigationIcon,
+          navigationIconContentDescription
+        )
       }
     },
-    colors = TopAppBarDefaults.topAppBarColors(
-      containerColor = Color.Transparent,
-      titleContentColor = MaterialTheme.colorScheme.onBackground,
-      actionIconContentColor = MaterialTheme.colorScheme.onBackground
-    ),
+    colors = if (!isSystemInDarkTheme())
+      TopAppBarDefaults.topAppBarColors(
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        titleContentColor = MaterialTheme.colorScheme.primary,
+        navigationIconContentColor = MaterialTheme.colorScheme.primary
+      )
+    else
+      TopAppBarDefaults.topAppBarColors(
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        titleContentColor = MaterialTheme.colorScheme.primary,
+        navigationIconContentColor = MaterialTheme.colorScheme.primary
+      ),
     scrollBehavior = scrollBehavior
   )
 }

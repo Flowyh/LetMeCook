@@ -51,7 +51,21 @@ fun TopAppSearchBar(
       modifier = Modifier
         .fillMaxWidth(),
       colors = TextFieldDefaults.colors(
-        cursorColor = Color.Transparent
+        unfocusedTextColor = MaterialTheme.colorScheme.primary,
+        focusedTextColor = MaterialTheme.colorScheme.primary,
+        unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+        focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+        cursorColor = Color.Transparent,
+        unfocusedIndicatorColor = MaterialTheme.colorScheme.secondary,
+        focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+        unfocusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+        focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+        unfocusedTrailingIconColor = MaterialTheme.colorScheme.primary,
+        focusedTrailingIconColor = MaterialTheme.colorScheme.primary,
+        unfocusedLabelColor = MaterialTheme.colorScheme.secondary,
+        focusedLabelColor = MaterialTheme.colorScheme.primary,
+        unfocusedPlaceholderColor = MaterialTheme.colorScheme.primary,
+        focusedPlaceholderColor = MaterialTheme.colorScheme.primary,
       ),
       value = text,
       onValueChange = { onTextChange(it) },
@@ -60,7 +74,7 @@ fun TopAppSearchBar(
         text = stringResource(R.string.top_bar_search_hint),
       ) },
       textStyle = TextStyle(
-        fontSize = MaterialTheme.typography.headlineSmall.fontSize,
+        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
       ),
       singleLine = true,
       leadingIcon = {

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.isContainer
@@ -84,23 +85,20 @@ fun DefaultScreen(
         )
       }
     ) { innerPadding ->
-      Column(
-        modifier = Modifier
-          .fillMaxSize()
-          .padding(innerPadding)
-      ) {
-        content(innerPadding)
-      }
+      content(innerPadding)
     }
   }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DefaultScreenWithoutSearchbar(
+fun DefaultScreenWithoutSearchbarWithNavigation(
   bottomNavigationBarItems: List<BottomNavigationBarItem>,
   scrollBehavior: TopAppBarScrollBehavior =
     TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
+  navigationIcon: ImageVector = goBackIcon,
+  navigationIconContentDescription: String = stringResource(R.string.top_app_bar_go_back_content_description),
+  onNavigationClick: () -> Unit,
   content: @Composable (PaddingValues) -> Unit
 ) {
   LetMeCookTheme {
@@ -113,12 +111,12 @@ fun DefaultScreenWithoutSearchbar(
             .zIndex(2f)
             .fillMaxWidth()
         ) {
-          TopBarWithoutSearchbar(
-            actionIcon = goBackIcon,
-            actionIconContentDescription =
-              stringResource(R.string.top_app_bar_go_back_content_description),
-            onActionClick = {
-              // TODO
+          TopBarWithoutSearchbarWithNavigation(
+            scrollBehavior = scrollBehavior,
+            navigationIcon = navigationIcon,
+            navigationIconContentDescription = navigationIconContentDescription,
+            onNavigationClick = {
+              onNavigationClick()
             }
           )
         }
@@ -130,13 +128,7 @@ fun DefaultScreenWithoutSearchbar(
         )
       }
     ) { innerPadding ->
-      Column(
-        modifier = Modifier
-          .fillMaxSize()
-          .padding(innerPadding)
-      ) {
-        content(innerPadding)
-      }
+      content(innerPadding)
     }
   }
 }

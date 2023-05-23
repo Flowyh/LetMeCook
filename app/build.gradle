@@ -83,7 +83,7 @@ dependencies {
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
-    implementation "io.github.raamcosta.compose-destinations:core:$destinations_version"
+    implementation "io.github.raamcosta.compose-destinations:animations-core:$destinations_version"
     ksp "io.github.raamcosta.compose-destinations:ksp:$destinations_version"
 
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"

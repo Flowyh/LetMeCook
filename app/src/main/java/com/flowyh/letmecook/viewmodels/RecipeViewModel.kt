@@ -32,13 +32,31 @@ class RecipeViewModel(
       servings = 3,
       details = createRecipeDetails(
         description = "Recipe $it",
-        ingredients = listOf(createRecipeIngredient(
-          name = "Ingredient $it",
-          quantity = 0.5,
-          unit = "kg",
-          type = IngredientType.OTHER
-        )!!),
-        steps = listOf("Step 1", "Step 2", "Step 3"),
+        ingredients = listOf(
+          createRecipeIngredient(
+            name = "Ingredient 1",
+            quantity = 0.5,
+            unit = "kg",
+            type = IngredientType.OTHER
+          )!!,
+          createRecipeIngredient(
+            name = "Ingredient 2",
+            quantity = 4.0,
+            unit = "cups",
+            type = IngredientType.OTHER
+          )!!,
+          createRecipeIngredient(
+            name = "Ingredient 3",
+            quantity = 3.0,
+            unit = "tsp",
+            type = IngredientType.OTHER
+          )!!,
+        ),
+        steps = listOf(
+          "Cook it",
+          "Throw me some numbers",
+          "Super loooooooooooooooooooong looooooooooooooooooooooooooooooooooooong liiiiiiiiiiiiiiiiiiiiine"
+        ),
         rating = 4.5f,
         filters =
           if (it % 5 == 0) {

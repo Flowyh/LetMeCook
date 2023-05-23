@@ -25,7 +25,110 @@ import com.flowyh.letmecook.ui.theme.cookingTimeIcon
 import com.flowyh.letmecook.ui.theme.difficultyIcon
 import com.flowyh.letmecook.ui.theme.servingsIcon
 import com.flowyh.letmecook.ui.theme.spacing
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
+import com.ramcosta.composedestinations.result.ResultBackNavigator
+import com.ramcosta.composedestinations.spec.DestinationStyle
 import java.util.*
+
+@Destination
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RecipeScreen(
+  recipe: Recipe,
+  resultNavigator: ResultBackNavigator<Unit>
+) {
+  val navItems = bottomNavItems(
+    onTodayRecipeClick = {},
+    onShoppingListClick = {},
+    onHomeClick = {},
+    onFavoritesClick = {},
+    onRandomClick = {}
+  )
+
+  DefaultScreenWithoutSearchbarWithNavigation(
+    bottomNavigationBarItems = navItems,
+    onNavigationClick = {
+      resultNavigator.navigateBack()
+    },
+  ) { innerPadding ->
+    Column(
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(innerPadding)
+        .padding(
+          horizontal = MaterialTheme.spacing.small,
+          vertical = MaterialTheme.spacing.small
+        )
+        .verticalScroll(rememberScrollState()),
+      verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+    ) {
+      // Filters
+      RecipeScreenFilters(recipeFilters = recipe.details.filters)
+      // Spacer with primary color
+      RecipeScreenSpacer()
+      // Title
+      RecipeScreenTitle(
+        modifier = Modifier.fillMaxHeight(),
+        title = recipe.title
+      )
+      // Rating
+      RecipeScreenRating(rating = recipe.details.rating)
+      // Big image
+      RecipeScreenImage(
+        image = recipe.details.bigImage,
+        contentDescription = "${recipe.title} image"
+      )
+
+      // Quick details
+      Row(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = MaterialTheme.spacing.tiny),
+        horizontalArrangement = Arrangement.SpaceBetween
+      ) {
+        RecipeScreenQuickDetail(
+          modifier = Modifier
+            .fillMaxHeight(0.1f),
+          text = "Time: ${recipe.time}",
+          icon = cookingTimeIcon,
+          contentDescription = "cooking time"
+        )
+        RecipeScreenQuickDetail(
+          modifier = Modifier
+            .fillMaxHeight(0.1f),
+          text = "Servings: ${recipe.servings}",
+          icon = servingsIcon,
+          contentDescription = "servings"
+        )
+        RecipeScreenQuickDetail(
+          modifier = Modifier
+            .fillMaxHeight(0.1f),
+          text = "Difficulty: ${recipe.difficulty}/3",
+          icon = difficultyIcon,
+          contentDescription = "difficulty"
+        )
+      }
+      // Spacer with primary color
+      RecipeScreenSpacer()
+      // Description
+      RecipeScreenDescription(description = recipe.details.description)
+      // Ingredients
+      RecipeScreenIngredients(
+        ingredients = recipe.details.ingredients,
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(vertical = MaterialTheme.spacing.small)
+      )
+      // Instructions
+      RecipeScreenInstructions(
+        instructions = recipe.details.steps,
+        modifier = Modifier
+          .fillMaxWidth()
+      )
+    }
+  }
+}
 
 @Composable
 fun RecipeFilterTypeList(
@@ -327,100 +430,6 @@ fun RecipeScreenInstructions(
   }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun RecipeScreen(
-  recipe: Recipe,
-) {
-  val navItems = bottomNavItems(
-    onTodayRecipeClick = {},
-    onShoppingListClick = {},
-    onHomeClick = {},
-    onFavoritesClick = {},
-    onRandomClick = {}
-  )
-
-  DefaultScreenWithoutSearchbar(
-    bottomNavigationBarItems = navItems,
-  ) {
-    Column(
-      modifier = Modifier
-        .fillMaxSize()
-        .padding(
-          horizontal = MaterialTheme.spacing.small,
-          vertical = MaterialTheme.spacing.small
-        )
-        .verticalScroll(rememberScrollState()),
-      verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
-    ) {
-      // Filters
-      RecipeScreenFilters(recipeFilters = recipe.details.filters)
-      // Spacer with primary color
-      RecipeScreenSpacer()
-      // Title
-      RecipeScreenTitle(
-        modifier = Modifier.fillMaxHeight(),
-        title = recipe.title
-      )
-      // Rating
-      RecipeScreenRating(rating = recipe.details.rating)
-      // Big image
-      RecipeScreenImage(
-        image = recipe.details.bigImage,
-        contentDescription = "${recipe.title} image"
-      )
-
-      // Quick details
-      Row(
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(horizontal = MaterialTheme.spacing.tiny),
-        horizontalArrangement = Arrangement.SpaceBetween
-      ) {
-        RecipeScreenQuickDetail(
-          modifier = Modifier
-            .fillMaxHeight(0.1f),
-          text = "Time: ${recipe.time}",
-          icon = cookingTimeIcon,
-          contentDescription = "cooking time"
-        )
-        RecipeScreenQuickDetail(
-          modifier = Modifier
-            .fillMaxHeight(0.1f),
-          text = "Servings: ${recipe.servings}",
-          icon = servingsIcon,
-          contentDescription = "servings"
-        )
-        RecipeScreenQuickDetail(
-          modifier = Modifier
-            .fillMaxHeight(0.1f),
-          text = "Difficulty: ${recipe.difficulty}/3",
-          icon = difficultyIcon,
-          contentDescription = "difficulty"
-        )
-      }
-      // Spacer with primary color
-      RecipeScreenSpacer()
-      // Description
-      RecipeScreenDescription(description = recipe.details.description)
-      // Ingredients
-      RecipeScreenIngredients(
-        ingredients = recipe.details.ingredients,
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(vertical = MaterialTheme.spacing.small)
-      )
-      // Instructions
-      RecipeScreenInstructions(
-        instructions = recipe.details.steps,
-        modifier = Modifier
-          .fillMaxWidth()
-      )
-    }
-  }
-}
-
-
 @Preview(showBackground = true)
 @Composable
 fun RecipeScreenPreview() {
@@ -472,5 +481,5 @@ fun RecipeScreenPreview() {
     )!!
   )!!
 
-  RecipeScreen(currentSelectedRecipe)
+  RecipeScreen(currentSelectedRecipe, EmptyResultBackNavigator())
 }
