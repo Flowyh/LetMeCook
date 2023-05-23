@@ -18,6 +18,7 @@ class MainBundledViewModel @Inject constructor(
   val activeFilters = recipeViewModel.activeFilters
 
   val onFilterSelected = recipeViewModel::onFilterSelected
+  val onRecipeListRefresh = recipeViewModel::onRecipeListRefresh
 
   val searchBarViewModel = SearchBarViewModel(
     savedStateHandle,

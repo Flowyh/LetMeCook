@@ -88,6 +88,9 @@ dependencies {
 
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
 
+    // Just for PullRefresh
+    implementation "androidx.compose.material:material:1.4.3"
+
     implementation "androidx.compose.material3:material3:$material3_version"
     implementation "androidx.compose.material3:material3-window-size-class:$material3_version"
     implementation "androidx.core:core-ktx:1.10.1"

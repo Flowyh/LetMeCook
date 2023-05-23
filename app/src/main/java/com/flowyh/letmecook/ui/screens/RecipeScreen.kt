@@ -28,7 +28,6 @@ import com.flowyh.letmecook.ui.theme.spacing
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
-import com.ramcosta.composedestinations.spec.DestinationStyle
 import java.util.*
 
 @Destination
@@ -36,12 +35,14 @@ import java.util.*
 @Composable
 fun RecipeScreen(
   recipe: Recipe,
-  resultNavigator: ResultBackNavigator<Unit>
+  resultNavigator: ResultBackNavigator<Float>
 ) {
+  var rating by remember { mutableStateOf(recipe.details.rating) }
+
   val navItems = bottomNavItems(
     onTodayRecipeClick = {},
     onShoppingListClick = {},
-    onHomeClick = {},
+    onHomeClick = { resultNavigator.navigateBack(result = rating) },
     onFavoritesClick = {},
     onRandomClick = {}
   )
@@ -49,7 +50,7 @@ fun RecipeScreen(
   DefaultScreenWithoutSearchbarWithNavigation(
     bottomNavigationBarItems = navItems,
     onNavigationClick = {
-      resultNavigator.navigateBack()
+      resultNavigator.navigateBack(result = rating)
     },
   ) { innerPadding ->
     Column(
@@ -126,6 +127,14 @@ fun RecipeScreen(
         modifier = Modifier
           .fillMaxWidth()
       )
+      // Spacer with primary color
+      RecipeScreenSpacer()
+      // Rating
+      RecipeScreenRateIt(
+        rating = recipe.details.rating
+      ) { newRating ->
+        rating = newRating
+      }
     }
   }
 }
@@ -430,6 +439,34 @@ fun RecipeScreenInstructions(
   }
 }
 
+
+@Composable
+fun RecipeScreenRateIt(
+  modifier: Modifier = Modifier,
+  rating: Float,
+  onRatingChanged: (Float) -> Unit,
+) {
+  var localRating by remember { mutableStateOf(rating) }
+
+  Row(
+    modifier = modifier
+      .fillMaxHeight(0.1f)
+      .fillMaxWidth(),
+    horizontalArrangement = Arrangement.Center
+  ) {
+    RatingBar(
+      modifier = Modifier,
+      rating = localRating,
+      onRatingChanged = {
+        onRatingChanged(it)
+        localRating = it
+      },
+      activeTint = MaterialTheme.colorScheme.primaryContainer,
+      inactiveTint = MaterialTheme.colorScheme.primary,
+    )
+  }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun RecipeScreenPreview() {
@@ -481,5 +518,8 @@ fun RecipeScreenPreview() {
     )!!
   )!!
 
-  RecipeScreen(currentSelectedRecipe, EmptyResultBackNavigator())
+  RecipeScreen(
+    currentSelectedRecipe,
+    EmptyResultBackNavigator()
+  )
 }

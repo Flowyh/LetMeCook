@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.flowyh.letmecook.R
+import com.flowyh.letmecook.ui.theme.NoRippleTheme
 
 @Composable
 fun RatingBar(
@@ -35,6 +36,7 @@ fun RatingBar(
         IconButton(
           modifier = Modifier
             .aspectRatio(1f),
+          interactionSource = NoRippleTheme(),
           onClick = { if (clickable) onRatingChanged(i.toFloat()) }
         ) {
           Icon(
@@ -48,6 +50,7 @@ fun RatingBar(
         IconButton(
           modifier = Modifier
             .aspectRatio(1f),
+          interactionSource = NoRippleTheme(),
           onClick = { if (clickable) onRatingChanged(i.toFloat()) }
         ) {
           Icon(
@@ -66,7 +69,7 @@ fun RatingBar(
 fun RatingBarPreview() {
   RatingBar(
     modifier = Modifier
-      .height(100.dp)
+      .height(200.dp)
       .fillMaxWidth(),
     rating = 3.5f,
     onRatingChanged = {}

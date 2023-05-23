@@ -93,16 +93,9 @@ class RecipeViewModel(
     savedStateHandle["recipes"] = filteredRecipes
   }
 
-  private fun filterRecipeList(filters: List<RecipeFilter>) {
-    val filtersNames: List<String> = filters.map { it.name }
+  // TODO: implement when DB is ready
+  fun onRecipeListRefresh() {
 
-    if (filtersNames.contains("All")) {
-      savedStateHandle["recipes"] = _recipesList
-      return
-    }
-
-    val filteredRecipes: List<Recipe> = _recipesList.filter { it.doesMatchFilter(filtersNames) }
-    savedStateHandle["recipes"] = filteredRecipes
   }
 
   // Filtering recipes
@@ -120,6 +113,18 @@ class RecipeViewModel(
 
   val filters = savedStateHandle.getStateFlow("filters", _filters)
   val activeFilters = savedStateHandle.getStateFlow("activeFilters", listOf(_filters[0]))
+
+  private fun filterRecipeList(filters: List<RecipeFilter>) {
+    val filtersNames: List<String> = filters.map { it.name }
+
+    if (filtersNames.contains("All")) {
+      savedStateHandle["recipes"] = _recipesList
+      return
+    }
+
+    val filteredRecipes: List<Recipe> = _recipesList.filter { it.doesMatchFilter(filtersNames) }
+    savedStateHandle["recipes"] = filteredRecipes
+  }
 
   fun onFilterSelected(filter: RecipeFilter) {
     var currentFilters: List<RecipeFilter> = activeFilters.value
@@ -172,5 +177,4 @@ class RecipeViewModel(
     // sort descending by rating
     savedStateHandle["recipes"] = starredRecipes.sortedBy { it.details.rating }.reversed()
   }
-
 }
