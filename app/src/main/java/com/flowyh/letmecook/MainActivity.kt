@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
             rootDefaultAnimations = RootNavGraphDefaultAnimations(
               enterTransition = {
                 slideInHorizontally(
-                  initialOffsetX = { -width },
+                  initialOffsetX = { width },
                   animationSpec = tween(
                     durationMillis = 300,
                     easing = LinearOutSlowInEasing
@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
               },
               exitTransition = {
                 slideOutHorizontally(
-                  targetOffsetX = { width },
+                  targetOffsetX = { -width },
                   animationSpec = tween(
                     durationMillis = 100,
                   )
@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
               },
               popEnterTransition = {
                 slideInHorizontally(
-                  initialOffsetX = { width },
+                  initialOffsetX = { -width },
                   animationSpec = tween(
                     durationMillis = 300,
                     easing = LinearOutSlowInEasing
@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
               },
               popExitTransition = {
                 slideOutHorizontally(
-                  targetOffsetX = { -width },
+                  targetOffsetX = { width },
                   animationSpec = tween(
                     durationMillis = 100
                   )

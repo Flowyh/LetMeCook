@@ -126,7 +126,6 @@ fun RecipeScreen(
                 )
               }
             },
-            interactionSource = NoRippleTheme(),
             modifier = modifier
               .padding(end = MaterialTheme.spacing.small)
               .size(24.dp)
@@ -372,9 +371,11 @@ fun RecipeScreenQuickDetail(
 fun RecipeScreenIngredients(
   modifier: Modifier = Modifier,
   cardTitle: String = "Ingredients",
+  cardTitleTypography: TextStyle = MaterialTheme.typography.headlineMedium,
   cardTopLeadingContent: @Composable (Modifier) -> Unit = {},
   cardTopTrailingContent: @Composable (Modifier) -> Unit = {},
   ingredients: List<RecipeIngredient>,
+  onIconClicked: (Boolean) -> Unit = {},
 ) {
   Card(
     modifier = modifier,
@@ -396,8 +397,8 @@ fun RecipeScreenIngredients(
         RecipeScreenTitle(
           modifier = Modifier.align(Alignment.Center),
           title = cardTitle,
-          fontTypography = MaterialTheme.typography.headlineMedium,
-          color = MaterialTheme.colorScheme.onSurface,
+          fontTypography = cardTitleTypography,
+          color = MaterialTheme.colorScheme.primary,
         )
         cardTopTrailingContent(
           Modifier.align(Alignment.CenterEnd)
@@ -417,7 +418,8 @@ fun RecipeScreenIngredients(
             iconContentDescription = "Ingredient",
             iconTint = MaterialTheme.colorScheme.primary,
             iconModifier = Modifier
-              .padding(end = MaterialTheme.spacing.tiny)
+              .padding(end = MaterialTheme.spacing.tiny),
+            onIconClick = onIconClicked
           )
           Box(
             modifier = Modifier.fillMaxHeight(),

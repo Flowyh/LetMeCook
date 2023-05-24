@@ -12,3 +12,6 @@ val goBackIcon = Icons.Default.ArrowBack
 val shoppingListIcon = Icons.Default.ReceiptLong
 val homeIcon = Icons.Default.Home
 val favoritesIcon = Icons.Default.Favorite
+
+val launchIcon = Icons.Default.Launch
+val deleteIcon = Icons.Default.DeleteForever

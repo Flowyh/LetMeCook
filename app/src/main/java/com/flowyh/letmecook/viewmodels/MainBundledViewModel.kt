@@ -27,6 +27,8 @@ class MainBundledViewModel @Inject constructor(
   val onFilterSelected = recipeViewModel::onFilterSelected
   val onRecipeListRefresh = recipeViewModel::onRecipeListRefresh
 
+  // TODO: Add shopping list stuff (view model or fields)
+
   val searchBarViewModel = SearchBarViewModel(
     savedStateHandle,
     recipeViewModel::updateRecipeList
