@@ -21,22 +21,24 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.flowyh.letmecook.models.*
 import com.flowyh.letmecook.ui.components.*
-import com.flowyh.letmecook.ui.theme.cookingTimeIcon
-import com.flowyh.letmecook.ui.theme.difficultyIcon
-import com.flowyh.letmecook.ui.theme.servingsIcon
-import com.flowyh.letmecook.ui.theme.spacing
+import com.flowyh.letmecook.ui.theme.*
+import com.flowyh.letmecook.viewmodels.MainBundledViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.ResultBackNavigator
+import kotlinx.coroutines.launch
 import java.util.*
 
 @Destination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeScreen(
+  viewModel: MainBundledViewModel,
   recipe: Recipe,
   navController: NavController,
   resultNavigator: ResultBackNavigator<Unit>
 ) {
+  val scope = rememberCoroutineScope()
+  val snackBarHostState = remember { SnackbarHostState() }
   var rating by remember { mutableStateOf(recipe.rating) }
 
   DefaultScreenWithoutSearchbar(
@@ -44,6 +46,7 @@ fun RecipeScreen(
     onNavigationClick = {
       resultNavigator.navigateBack()
     },
+    snackBarHostState = snackBarHostState
   ) { innerPadding ->
     Column(
       modifier = Modifier
@@ -111,7 +114,30 @@ fun RecipeScreen(
         ingredients = recipe.details.ingredients,
         modifier = Modifier
           .fillMaxWidth()
-          .padding(vertical = MaterialTheme.spacing.small)
+          .padding(vertical = MaterialTheme.spacing.small),
+        cardTopLeadingContent = { },
+        cardTopTrailingContent = { modifier ->
+          IconButton(
+            onClick = {
+              // TODO: use viewModel to add to shopping list
+              scope.launch {
+                snackBarHostState.showSnackbar(
+                  message = "Added ingredients as a shopping list",
+                )
+              }
+            },
+            interactionSource = NoRippleTheme(),
+            modifier = modifier
+              .padding(end = MaterialTheme.spacing.small)
+              .size(24.dp)
+          ) {
+            Icon(
+              imageVector = shoppingListIcon,
+              contentDescription = "add as shopping list",
+              tint = MaterialTheme.colorScheme.primary
+            )
+          }
+        }
       )
       // Instructions
       RecipeScreenInstructions(
@@ -123,9 +149,11 @@ fun RecipeScreen(
       RecipeScreenSpacer()
       // Rating
       RecipeScreenRateIt(
-        rating = recipe.rating
+        rating = rating
       ) { newRating ->
         rating = newRating
+        // TODO: Add rating save to room
+        // viewModel.rateRecipe(recipe.id, newRating)
       }
     }
   }
@@ -343,6 +371,9 @@ fun RecipeScreenQuickDetail(
 @Composable
 fun RecipeScreenIngredients(
   modifier: Modifier = Modifier,
+  cardTitle: String = "Ingredients",
+  cardTopLeadingContent: @Composable (Modifier) -> Unit = {},
+  cardTopTrailingContent: @Composable (Modifier) -> Unit = {},
   ingredients: List<RecipeIngredient>,
 ) {
   Card(
@@ -356,12 +387,22 @@ fun RecipeScreenIngredients(
         .padding(MaterialTheme.spacing.small),
       verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny)
     ) {
-      RecipeScreenTitle(
+      Box(
         modifier = Modifier.fillMaxWidth(),
-        title = "Ingredients",
-        fontTypography = MaterialTheme.typography.headlineMedium,
-        color = MaterialTheme.colorScheme.onSurface,
-      )
+      ) {
+        cardTopLeadingContent(
+          Modifier.align(Alignment.CenterStart)
+        )
+        RecipeScreenTitle(
+          modifier = Modifier.align(Alignment.Center),
+          title = cardTitle,
+          fontTypography = MaterialTheme.typography.headlineMedium,
+          color = MaterialTheme.colorScheme.onSurface,
+        )
+        cardTopTrailingContent(
+          Modifier.align(Alignment.CenterEnd)
+        )
+      }
       for (ingredient in ingredients) {
         Row(
           modifier = Modifier.fillMaxWidth(),

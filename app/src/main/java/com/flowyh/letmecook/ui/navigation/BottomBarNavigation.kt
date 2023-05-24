@@ -1,13 +1,12 @@
 package com.flowyh.letmecook.ui.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ReceiptLong
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.flowyh.letmecook.ui.screens.destinations.FavoriteRecipesScreenDestination
 import com.flowyh.letmecook.ui.screens.destinations.RecipeListScreenDestination
 import com.flowyh.letmecook.ui.screens.destinations.ShoppingListScreenDestination
+import com.flowyh.letmecook.ui.theme.favoritesIcon
+import com.flowyh.letmecook.ui.theme.homeIcon
+import com.flowyh.letmecook.ui.theme.shoppingListIcon
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 
 enum class BottomBarNavigation(
@@ -17,17 +16,17 @@ enum class BottomBarNavigation(
 ) {
   ShoppingListScreen(
     direction = ShoppingListScreenDestination,
-    icon = Icons.Default.ReceiptLong,
+    icon = shoppingListIcon,
     contentDescription = "shopping list",
   ),
   RecipeListScreen(
     direction = RecipeListScreenDestination,
-    icon = Icons.Default.Home,
+    icon = homeIcon,
     contentDescription = "home",
   ),
   FavoritesScreen(
     direction = FavoriteRecipesScreenDestination,
-    icon = Icons.Default.Favorite,
+    icon = favoritesIcon,
     contentDescription = "favorites",
   )
 }

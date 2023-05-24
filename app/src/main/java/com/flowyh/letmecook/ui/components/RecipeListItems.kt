@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -12,6 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.flowyh.letmecook.models.*
@@ -149,23 +151,25 @@ fun FavoriteRecipeListItem(
         modifier = Modifier
           .fillMaxWidth(if (imageOnLeft) 1f else 0.5f)
           .fillMaxHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
       ) {
         Text(
           modifier = Modifier
-            .fillMaxWidth()
             .padding(
               horizontal = MaterialTheme.spacing.small
             ),
           text = recipe.title,
-          color = MaterialTheme.colorScheme.onSurface,
-          fontSize = MaterialTheme.typography.headlineSmall.fontSize,
-          fontWeight = FontWeight.Bold
+          style = TextStyle (
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = MaterialTheme.typography.headlineSmall.fontSize,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+          ),
         )
         RatingBar(
           modifier = Modifier
             .fillMaxHeight(0.2f)
-            .fillMaxWidth()
             .padding(
               horizontal = MaterialTheme.spacing.small
             ),
@@ -184,7 +188,7 @@ fun FavoriteRecipeListItem(
 fun FavoriteRecipeListItemPreview() {
   FavoriteRecipeListItem(
     recipe = createRecipe(
-      title = "Recipe title",
+      title = "Recipe titleeeeeeeeeee",
       time = "30 min",
       difficulty = 3,
       servings = 3,

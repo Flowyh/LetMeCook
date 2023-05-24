@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -29,6 +30,7 @@ fun DefaultScreenWithSearchbar(
   onRandomRecipeClick: () -> Unit,
   scrollBehavior: TopAppBarScrollBehavior =
     TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
+  snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
   content: @Composable (PaddingValues) -> Unit
 ) {
   val searchBarState  = searchBarViewModel.searchBarState.collectAsStateWithLifecycle()
@@ -37,6 +39,9 @@ fun DefaultScreenWithSearchbar(
   LetMeCookTheme {
     Scaffold(
       modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+      snackbarHost = {
+        SnackbarHost(snackBarHostState) { data -> DefaultSnackBar(data) }
+      },
       topBar = {
         Box(
           Modifier
@@ -98,16 +103,20 @@ fun DefaultScreenWithSearchbar(
 @Composable
 fun DefaultScreenWithoutSearchbar(
   navController: NavController,
-  scrollBehavior: TopAppBarScrollBehavior =
-    TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
   navigationIcon: ImageVector = goBackIcon,
   navigationIconContentDescription: String = stringResource(R.string.top_app_bar_go_back_content_description),
   onNavigationClick: () -> Unit,
+  scrollBehavior: TopAppBarScrollBehavior =
+    TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
+  snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
   content: @Composable (PaddingValues) -> Unit
 ) {
   LetMeCookTheme {
     Scaffold(
       modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+      snackbarHost = {
+        SnackbarHost(snackBarHostState) { data -> DefaultSnackBar(data) }
+      },
       topBar = {
         Box(
           Modifier
