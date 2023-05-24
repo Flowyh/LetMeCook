@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.flowyh.letmecook.ui.components.*
 import com.flowyh.letmecook.ui.screens.destinations.RecipeScreenDestination
 import com.flowyh.letmecook.viewmodels.MainBundledViewModel
@@ -32,44 +33,19 @@ import kotlinx.coroutines.launch
 @Destination
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
-fun RecipeListMainScreen(
+fun RecipeListScreen(
   viewModel: MainBundledViewModel,
   navigator: DestinationsNavigator,
+  navController: NavController,
   resultRecipient: ResultRecipient<RecipeScreenDestination, Float>
 ) {
   // UI state
-  val scope = rememberCoroutineScope()
   val listState = rememberLazyListState()
 
   // View model values
   val recipesList = viewModel.recipes.collectAsStateWithLifecycle()
   val filters = viewModel.filters.collectAsStateWithLifecycle()
   val activeFilters = viewModel.activeFilters.collectAsStateWithLifecycle()
-
-  // Navs
-  val navItems = bottomNavItems(
-    onTodayRecipeClick = {
-      navigator.navigate(
-        RecipeScreenDestination(
-          recipe = viewModel.recipeViewModel.getRecipeOfTheDay()
-        )
-      )
-    },
-    onShoppingListClick = {},
-    onHomeClick = {
-      scope.launch {
-        listState.animateScrollToItem(0)
-      }
-    },
-    onFavoritesClick = {},
-    onRandomClick = {
-      navigator.navigate(
-        RecipeScreenDestination(
-          recipe = viewModel.recipeViewModel.getRandomRecipe()
-        )
-      )
-    }
-  )
 
   // Refreshing
   val refreshScope = rememberCoroutineScope()
@@ -100,9 +76,23 @@ fun RecipeListMainScreen(
     }
   }
 
-  DefaultScreen(
+  DefaultScreenWithSearchbar(
     searchBarViewModel = viewModel.searchBarViewModel,
-    bottomNavigationBarItems = navItems,
+    onTodayRecipeClick = {
+      navigator.navigate(
+        RecipeScreenDestination(
+          recipe = viewModel.recipeViewModel.getRecipeOfTheDay()
+        )
+      )
+    },
+    onRandomRecipeClick = {
+      navigator.navigate(
+        RecipeScreenDestination(
+          recipe = viewModel.recipeViewModel.getRandomRecipe()
+        )
+      )
+    },
+    navController = navController
   ) { innerPadding ->
     Column(
       modifier = Modifier

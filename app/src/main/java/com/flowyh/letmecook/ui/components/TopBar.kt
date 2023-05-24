@@ -3,11 +3,12 @@ package com.flowyh.letmecook.ui.components
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Casino
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Today
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import com.flowyh.letmecook.R
@@ -23,23 +24,27 @@ fun TopAppBarWithSearchBar(
   onSearchBarTextChange: (String) -> Unit,
   onSearchBarClose: () -> Unit,
   onSearchBarSearch: (String) -> Unit,
+  onTodayClick: () -> Unit,
+  onRandomClick: () -> Unit,
   onSearchClick: () -> Unit,
 ){
   when (searchBarState) {
     SearchBarState.CLOSED -> {
       DefaultTopAppBar(
+        modifier = modifier,
         scrollBehavior = scrollBehavior,
-        onSearchClick = onSearchClick,
-        modifier = modifier
+        onTodayClick = onTodayClick,
+        onRandomClick = onRandomClick,
+        onSearchClick = onSearchClick
       )
     }
     SearchBarState.OPENED -> {
       TopAppSearchBar(
+        modifier = modifier,
         text = searchTextState,
         onTextChange = onSearchBarTextChange,
         onClose = onSearchBarClose,
-        onSearch = onSearchBarSearch,
-        modifier = modifier
+        onSearch = onSearchBarSearch
       )
     }
   }
@@ -50,6 +55,8 @@ fun TopAppBarWithSearchBar(
 fun DefaultTopAppBar(
   modifier: Modifier = Modifier,
   scrollBehavior: TopAppBarScrollBehavior,
+  onTodayClick: () -> Unit,
+  onRandomClick: () -> Unit,
   onSearchClick: () -> Unit
 ) {
   TopAppBar(
@@ -58,6 +65,12 @@ fun DefaultTopAppBar(
       Text(stringResource(R.string.app_name))
     },
     actions = {
+      IconButton(onClick = { onTodayClick() }) {
+        Icon(Icons.Default.Today, stringResource(R.string.top_bar_search_content_description))
+      }
+      IconButton(onClick = { onRandomClick() }) {
+        Icon(Icons.Default.Casino, stringResource(R.string.top_bar_search_content_description))
+      }
       IconButton(onClick = { onSearchClick() }) {
         Icon(Icons.Default.Search, stringResource(R.string.top_bar_search_content_description))
       }

@@ -27,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-  // TODO: change to navigation to homescreen
   @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)

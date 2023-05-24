@@ -1,5 +1,6 @@
 package com.flowyh.letmecook.ui.screens
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -19,12 +20,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.flowyh.letmecook.models.*
 import com.flowyh.letmecook.ui.components.*
 import com.flowyh.letmecook.ui.theme.cookingTimeIcon
 import com.flowyh.letmecook.ui.theme.difficultyIcon
 import com.flowyh.letmecook.ui.theme.servingsIcon
 import com.flowyh.letmecook.ui.theme.spacing
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
@@ -35,20 +38,13 @@ import java.util.*
 @Composable
 fun RecipeScreen(
   recipe: Recipe,
+  navController: NavController,
   resultNavigator: ResultBackNavigator<Float>
 ) {
   var rating by remember { mutableStateOf(recipe.details.rating) }
 
-  val navItems = bottomNavItems(
-    onTodayRecipeClick = {},
-    onShoppingListClick = {},
-    onHomeClick = { resultNavigator.navigateBack(result = rating) },
-    onFavoritesClick = {},
-    onRandomClick = {}
-  )
-
-  DefaultScreenWithoutSearchbarWithNavigation(
-    bottomNavigationBarItems = navItems,
+  DefaultScreenWithoutSearchbar(
+    navController = navController,
     onNavigationClick = {
       resultNavigator.navigateBack(result = rating)
     },
@@ -467,6 +463,7 @@ fun RecipeScreenRateIt(
   }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Preview(showBackground = true)
 @Composable
 fun RecipeScreenPreview() {
@@ -520,6 +517,7 @@ fun RecipeScreenPreview() {
 
   RecipeScreen(
     currentSelectedRecipe,
-    EmptyResultBackNavigator()
+    navController = rememberAnimatedNavController(),
+    resultNavigator = EmptyResultBackNavigator()
   )
 }

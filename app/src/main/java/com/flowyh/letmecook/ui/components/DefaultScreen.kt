@@ -14,21 +14,23 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.flowyh.letmecook.R
 import com.flowyh.letmecook.ui.theme.LetMeCookTheme
 import com.flowyh.letmecook.ui.theme.goBackIcon
 import com.flowyh.letmecook.viewmodels.SearchBarViewModel
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DefaultScreen(
+fun DefaultScreenWithSearchbar(
+  navController: NavController,
   searchBarViewModel: SearchBarViewModel,
-  bottomNavigationBarItems: List<BottomNavigationBarItem>,
+  onTodayRecipeClick: () -> Unit,
+  onRandomRecipeClick: () -> Unit,
   scrollBehavior: TopAppBarScrollBehavior =
     TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
   content: @Composable (PaddingValues) -> Unit
 ) {
-
   val searchBarState  = searchBarViewModel.searchBarState.collectAsStateWithLifecycle()
   val searchTextState = searchBarViewModel.searchTextState.collectAsStateWithLifecycle()
 
@@ -73,7 +75,9 @@ fun DefaultScreen(
               },
               onSearchClick = {
                 searchBarViewModel.updateSearchBarState(SearchBarState.OPENED)
-              }
+              },
+              onTodayClick = onTodayRecipeClick,
+              onRandomClick = onRandomRecipeClick
             )
           }
         }
@@ -81,7 +85,7 @@ fun DefaultScreen(
       bottomBar = {
         BottomNavigationBar(
           modifier = Modifier.height(56.dp),
-          items = bottomNavigationBarItems
+          navController = navController
         )
       }
     ) { innerPadding ->
@@ -92,8 +96,8 @@ fun DefaultScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DefaultScreenWithoutSearchbarWithNavigation(
-  bottomNavigationBarItems: List<BottomNavigationBarItem>,
+fun DefaultScreenWithoutSearchbar(
+  navController: NavController,
   scrollBehavior: TopAppBarScrollBehavior =
     TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
   navigationIcon: ImageVector = goBackIcon,
@@ -124,7 +128,7 @@ fun DefaultScreenWithoutSearchbarWithNavigation(
       bottomBar = {
         BottomNavigationBar(
           modifier = Modifier.height(56.dp),
-          items = bottomNavigationBarItems
+          navController = navController
         )
       }
     ) { innerPadding ->
