@@ -32,6 +32,7 @@ class RecipeViewModel(
       time = "30 min",
       difficulty = 3,
       servings = 3,
+      rating = nextInt(1, 11).toFloat() / 2f,
       details = createRecipeDetails(
         description = "Recipe $it",
         ingredients = listOf(
@@ -59,7 +60,6 @@ class RecipeViewModel(
           "Throw me some numbers",
           "Super loooooooooooooooooooong looooooooooooooooooooooooooooooooooooong liiiiiiiiiiiiiiiiiiiiine"
         ),
-        rating = nextInt(1, 11).toFloat() / 2f,
         filters =
           if (it % 5 == 0) {
             listOf(
@@ -175,10 +175,10 @@ class RecipeViewModel(
   //       the main recipe list)
   fun setFavouriteRecipes() {
     val starredRecipes: List<Recipe> = _recipesList.filter {
-      it.details.rating > 3.5f
+      it.rating > 3.5f
     }
 
     // sort descending by rating
-    savedStateHandle["recipes"] = starredRecipes.sortedBy { it.details.rating }.reversed()
+    savedStateHandle["recipes"] = starredRecipes.sortedBy { it.rating }.reversed()
   }
 }

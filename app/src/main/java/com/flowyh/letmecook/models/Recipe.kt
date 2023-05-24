@@ -1,20 +1,23 @@
 package com.flowyh.letmecook.models
 
 import android.os.Parcelable
+import androidx.room.*
 import com.flowyh.letmecook.R
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 import java.util.UUID
 
+@Entity(tableName = "favourites")
 @Parcelize
 data class Recipe internal constructor(
-  val title: String,
-  val time: String,
-  val difficulty: Int,
-  val servings: Int,
-  val smallImage: Int,
-  val details: RecipeDetails,
-  val id: String
+  @ColumnInfo(name = "title") val title: String,
+  @ColumnInfo(name = "time") val time: String,
+  @ColumnInfo(name = "difficulty") val difficulty: Int,
+  @ColumnInfo(name = "servings") val servings: Int,
+  @ColumnInfo(name = "rating") val rating: Float,
+  @ColumnInfo(name = "smallImage") val smallImage: Int,
+  @ColumnInfo(name = "details") val details: RecipeDetails,
+  @PrimaryKey val id: String
 ) : Serializable, Parcelable {
   fun doesMatchDifficulty(query: String): Boolean {
     return when (query.lowercase()) {
@@ -59,6 +62,7 @@ fun createRecipe(
   time: String,
   difficulty: Int,
   servings: Int,
+  rating: Float,
   smallImage: Int = R.drawable.ic_launcher_background,
   details: RecipeDetails,
   id: String = UUID.randomUUID().toString()
@@ -72,5 +76,8 @@ fun createRecipe(
   if (servings < 1 || servings > 30)
     return null
 
-  return Recipe(title, time, difficulty, servings, smallImage, details, id)
+  if (rating < 0 || rating > 5)
+    return null
+
+  return Recipe(title, time, difficulty, servings, rating, smallImage, details, id)
 }

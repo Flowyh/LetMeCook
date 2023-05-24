@@ -169,7 +169,7 @@ fun FavoriteRecipeListItem(
             .padding(
               horizontal = MaterialTheme.spacing.small
             ),
-          rating = recipe.details.rating,
+          rating = recipe.rating,
           onRatingChanged = {},
         )
       }
@@ -188,6 +188,7 @@ fun FavoriteRecipeListItemPreview() {
       time = "30 min",
       difficulty = 3,
       servings = 3,
+      rating = 4.5f,
       details = createRecipeDetails(
         description = "Recipe",
         ingredients = listOf(
@@ -198,7 +199,6 @@ fun FavoriteRecipeListItemPreview() {
             type = IngredientType.OTHER
           )!!),
         steps = listOf("Step 1", "Step 2", "Step 3"),
-        rating = 4.5f,
         filters = listOf()
       )!!
     )!!,
@@ -215,6 +215,7 @@ fun RecipeListItemPreview() {
       time = "30 min",
       difficulty = 3,
       servings = 3,
+      rating = 4.5f,
       details = createRecipeDetails(
         description = "Recipe",
         ingredients = listOf(
@@ -225,7 +226,6 @@ fun RecipeListItemPreview() {
           type = IngredientType.OTHER
         )!!),
         steps = listOf("Step 1", "Step 2", "Step 3"),
-        rating = 4.5f,
         filters = listOf()
       )!!
     )!!,
@@ -242,6 +242,7 @@ fun RecipeListItemPreviewRight() {
       time = "30 min",
       difficulty = 3,
       servings = 3,
+      rating = 4.5f,
       details = createRecipeDetails(
         description = "Recipe",
         ingredients = listOf(
@@ -252,7 +253,6 @@ fun RecipeListItemPreviewRight() {
           type = IngredientType.OTHER
         )!!),
         steps = listOf("Step 1", "Step 2", "Step 3"),
-        rating = 4.5f,
         filters = listOf()
       )!!
     )!!,

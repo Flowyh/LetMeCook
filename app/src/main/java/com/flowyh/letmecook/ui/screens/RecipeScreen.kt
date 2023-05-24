@@ -1,6 +1,5 @@
 package com.flowyh.letmecook.ui.screens
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -18,7 +17,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.flowyh.letmecook.models.*
@@ -27,10 +25,7 @@ import com.flowyh.letmecook.ui.theme.cookingTimeIcon
 import com.flowyh.letmecook.ui.theme.difficultyIcon
 import com.flowyh.letmecook.ui.theme.servingsIcon
 import com.flowyh.letmecook.ui.theme.spacing
-import com.flowyh.letmecook.viewmodels.MainBundledViewModel
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.result.EmptyResultBackNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import java.util.*
 
@@ -38,12 +33,11 @@ import java.util.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeScreen(
-  viewModel: MainBundledViewModel,
   recipe: Recipe,
   navController: NavController,
   resultNavigator: ResultBackNavigator<Unit>
 ) {
-  var rating by remember { mutableStateOf(recipe.details.rating) }
+  var rating by remember { mutableStateOf(recipe.rating) }
 
   DefaultScreenWithoutSearchbar(
     navController = navController,
@@ -129,11 +123,9 @@ fun RecipeScreen(
       RecipeScreenSpacer()
       // Rating
       RecipeScreenRateIt(
-        rating = recipe.details.rating
+        rating = recipe.rating
       ) { newRating ->
         rating = newRating
-        // TODO: Add rating save to room
-        // viewModel.rateRecipe(recipe.id, newRating)
       }
     }
   }
