@@ -14,7 +14,10 @@ class MainBundledViewModel @Inject constructor(
   val recipeViewModel: RecipeViewModel = RecipeViewModel(savedStateHandle)
 
   val recipes = recipeViewModel.recipes
+  val favoriteRecipes = recipeViewModel.favoriteRecipes
+
   val filters = recipeViewModel.filters
+  val favoriteFilters = recipeViewModel.favoriteFilters
   val activeFilters = recipeViewModel.activeFilters
 
   val onFilterSelected = recipeViewModel::onFilterSelected

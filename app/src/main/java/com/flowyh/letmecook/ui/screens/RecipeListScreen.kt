@@ -21,12 +21,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.flowyh.letmecook.ui.components.*
 import com.flowyh.letmecook.ui.screens.destinations.RecipeScreenDestination
+import com.flowyh.letmecook.ui.theme.spacing
 import com.flowyh.letmecook.viewmodels.MainBundledViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.result.NavResult
-import com.ramcosta.composedestinations.result.ResultRecipient
 import kotlinx.coroutines.launch
 
 @RootNavGraph(start = true)
@@ -37,7 +36,6 @@ fun RecipeListScreen(
   viewModel: MainBundledViewModel,
   navigator: DestinationsNavigator,
   navController: NavController,
-  resultRecipient: ResultRecipient<RecipeScreenDestination, Float>
 ) {
   // UI state
   val listState = rememberLazyListState()
@@ -61,20 +59,6 @@ fun RecipeListScreen(
     onRefresh = ::refresh,
     refreshThreshold = (LocalConfiguration.current.screenHeightDp / 13).dp
   )
-
-  // Navigator result
-  resultRecipient.onNavResult { result ->
-    when (result) {
-      is NavResult.Canceled -> {
-        // TODO: Handle cancel
-        Log.d("RecipeListMainScreen", "onNavResult: canceled")
-      }
-      is NavResult.Value -> {
-        // TODO: Handle rating, add to room or sth
-        Log.d("RecipeListMainScreen", "onNavResult: ${result.value}")
-      }
-    }
-  }
 
   DefaultScreenWithSearchbar(
     searchBarViewModel = viewModel.searchBarViewModel,
@@ -115,9 +99,10 @@ fun RecipeListScreen(
       ) {
         LazyColumn(
           modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(horizontal = MaterialTheme.spacing.tiny),
           state = listState,
-          verticalArrangement = Arrangement.spacedBy(1.dp)
+          verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
         ) {
           items(recipesList.value.size) { item ->
             RecipeListItem(

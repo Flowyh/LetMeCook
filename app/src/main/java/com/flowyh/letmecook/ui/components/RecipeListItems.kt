@@ -10,6 +10,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.flowyh.letmecook.models.*
@@ -120,6 +122,88 @@ fun RecipeListItem(
         RecipeListItemImage(recipe.smallImage, false)
     }
   }
+}
+
+@Composable
+fun FavoriteRecipeListItem(
+  modifier: Modifier = Modifier,
+  recipe: Recipe,
+  onRecipeClick: (Recipe) -> Unit,
+  imageOnLeft: Boolean = true
+) {
+  Card(
+    modifier = modifier,
+    shape = MaterialTheme.shapes.medium,
+    elevation = CardDefaults.cardElevation(4.dp),
+  ) {
+    Row(
+      modifier = Modifier
+        .fillMaxWidth()
+        .height(200.dp)
+        .clickable { onRecipeClick(recipe) }
+    ) {
+      if (imageOnLeft)
+        RecipeListItemImage(recipe.smallImage, true)
+
+      Column(
+        modifier = Modifier
+          .fillMaxWidth(if (imageOnLeft) 1f else 0.5f)
+          .fillMaxHeight(),
+        verticalArrangement = Arrangement.Center
+      ) {
+        Text(
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+              horizontal = MaterialTheme.spacing.small
+            ),
+          text = recipe.title,
+          color = MaterialTheme.colorScheme.onSurface,
+          fontSize = MaterialTheme.typography.headlineSmall.fontSize,
+          fontWeight = FontWeight.Bold
+        )
+        RatingBar(
+          modifier = Modifier
+            .fillMaxHeight(0.2f)
+            .fillMaxWidth()
+            .padding(
+              horizontal = MaterialTheme.spacing.small
+            ),
+          rating = recipe.details.rating,
+          onRatingChanged = {},
+        )
+      }
+      if (!imageOnLeft)
+        RecipeListItemImage(recipe.smallImage, false)
+    }
+  }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FavoriteRecipeListItemPreview() {
+  FavoriteRecipeListItem(
+    recipe = createRecipe(
+      title = "Recipe title",
+      time = "30 min",
+      difficulty = 3,
+      servings = 3,
+      details = createRecipeDetails(
+        description = "Recipe",
+        ingredients = listOf(
+          createRecipeIngredient(
+            name = "Ingredient",
+            quantity = 0.5,
+            unit = "kg",
+            type = IngredientType.OTHER
+          )!!),
+        steps = listOf("Step 1", "Step 2", "Step 3"),
+        rating = 4.5f,
+        filters = listOf()
+      )!!
+    )!!,
+    onRecipeClick = {}
+  )
 }
 
 @Preview(showBackground = true)

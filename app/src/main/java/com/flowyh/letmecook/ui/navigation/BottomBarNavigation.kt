@@ -15,7 +15,7 @@ enum class BottomBarNavigation(
   val icon: ImageVector,
   val contentDescription: String? = null,
 ) {
-  ShoppingListScreen( // TODO: change direction
+  ShoppingListScreen(
     direction = ShoppingListScreenDestination,
     icon = Icons.Default.ReceiptLong,
     contentDescription = "shopping list",
@@ -25,7 +25,7 @@ enum class BottomBarNavigation(
     icon = Icons.Default.Home,
     contentDescription = "home",
   ),
-  FavoritesScreen( // TODO: change direction
+  FavoritesScreen(
     direction = FavoriteRecipesScreenDestination,
     icon = Icons.Default.Favorite,
     contentDescription = "favorites",

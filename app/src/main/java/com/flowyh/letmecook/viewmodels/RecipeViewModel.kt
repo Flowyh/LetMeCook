@@ -88,6 +88,9 @@ class RecipeViewModel(
 
   var recipes = savedStateHandle.getStateFlow("recipes", _recipesList)
 
+  // TODO: Replace with data from room
+  var favoriteRecipes = recipes
+
   fun updateRecipeList(query: String) {
     val filteredRecipes: List<Recipe> = _recipesList.filter { it.doesMatchQuery(query) }
     savedStateHandle["recipes"] = filteredRecipes
@@ -112,6 +115,7 @@ class RecipeViewModel(
   )
 
   val filters = savedStateHandle.getStateFlow("filters", _filters)
+  val favoriteFilters = filters // TODO: add after room is ready
   val activeFilters = savedStateHandle.getStateFlow("activeFilters", listOf(_filters[0]))
 
   private fun filterRecipeList(filters: List<RecipeFilter>) {
