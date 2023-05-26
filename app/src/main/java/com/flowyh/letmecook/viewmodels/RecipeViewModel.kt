@@ -3,9 +3,8 @@ package com.flowyh.letmecook.viewmodels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.flowyh.letmecook.models.*
+import kotlinx.coroutines.flow.StateFlow
 import java.util.*
-import kotlin.random.Random.Default.nextInt
-
 
 class RecipeViewModel(
   private val savedStateHandle: SavedStateHandle
@@ -32,7 +31,7 @@ class RecipeViewModel(
       time = "30 min",
       difficulty = 3,
       servings = 3,
-      rating = nextInt(1, 11).toFloat() / 2f,
+      rating = 0f,
       details = createRecipeDetails(
         description = "Recipe $it",
         ingredients = listOf(
@@ -86,10 +85,32 @@ class RecipeViewModel(
     )!!
   }
 
-  val recipes = savedStateHandle.getStateFlow("recipes", _recipesList)
+  var recipes = savedStateHandle.getStateFlow("recipes", _recipesList)
+  var favoriteRecipes: StateFlow<List<Recipe>> = savedStateHandle.getStateFlow("favorite", listOf())
 
-  // TODO: Replace with data from room
-  val favoriteRecipes = recipes
+  fun addRecipeRating(ratedRecipes: List<Recipe>) {
+    val recipes: List<Recipe> = _recipesList
+    for (recipe in recipes) {
+      for (ratedRecipe in ratedRecipes) {
+        if (recipe.title == ratedRecipe.title) {
+          recipe.rating = ratedRecipe.rating
+        }
+      }
+    }
+    savedStateHandle["recipes"] = recipes
+  }
+
+  fun updateRecipeRating(rating: Float, id: String) {
+    _recipesList = _recipesList.map {
+      if (it.id == id) it.copy(rating = rating)
+      else it
+    }
+    savedStateHandle["recipes"] = _recipesList
+  }
+
+  fun updateFavoriteRecipes(favorites: List<Recipe>) {
+    savedStateHandle["favorite"] = favorites
+  }
 
   fun updateRecipeList(query: String) {
     val filteredRecipes: List<Recipe> = _recipesList.filter { it.doesMatchQuery(query) }
@@ -155,8 +176,6 @@ class RecipeViewModel(
 
   // Navigation bar functionality
 
-  // TODO: move this functions to the navigation bar
-  //       handler / pass it as a constructor parameter
   // TODO: fetch all recipes from firebase
   fun getRandomRecipe(): Recipe {
     return _recipesList.random()
@@ -170,15 +189,4 @@ class RecipeViewModel(
     return _recipesList[index]
   }
 
-  // TODO: replace by getting starred recipes from room
-  //       favourite recipes are a sepatare list (from
-  //       the main recipe list)
-  fun setFavouriteRecipes() {
-    val starredRecipes: List<Recipe> = _recipesList.filter {
-      it.rating > 3.5f
-    }
-
-    // sort descending by rating
-    savedStateHandle["recipes"] = starredRecipes.sortedBy { it.rating }.reversed()
-  }
 }

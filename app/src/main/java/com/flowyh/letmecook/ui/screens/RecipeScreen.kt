@@ -150,9 +150,16 @@ fun RecipeScreen(
       RecipeScreenRateIt(
         rating = rating
       ) { newRating ->
+        recipe.rating = newRating
+        if (rating == 0f) viewModel.roomRepository.insert(recipe)
+        else viewModel.roomRepository.updateRating(recipe)
+
         rating = newRating
-        // TODO: Add rating save to room
-        // viewModel.rateRecipe(recipe.id, newRating)
+        viewModel.recipeViewModel.updateRecipeRating(newRating, recipe.id)
+        viewModel.recipeViewModel.updateFavoriteRecipes(
+          viewModel.roomRepository.getAllByRating()
+        )
+
       }
     }
   }
@@ -299,7 +306,7 @@ fun RecipeScreenRating(
       contentAlignment = Alignment.Center
     ) {
       Text(
-        text = "(${rating} / 5)",
+        text = "(${rating.toInt()} / 5)",
         style = TextStyle(
           color = MaterialTheme.colorScheme.primary,
           fontSize = MaterialTheme.typography.bodyMedium.fontSize,

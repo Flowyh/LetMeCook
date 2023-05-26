@@ -14,7 +14,7 @@ data class Recipe internal constructor(
   @ColumnInfo(name = "time") val time: String,
   @ColumnInfo(name = "difficulty") val difficulty: Int,
   @ColumnInfo(name = "servings") val servings: Int,
-  @ColumnInfo(name = "rating") val rating: Float,
+  @ColumnInfo(name = "rating") var rating: Float,
   @ColumnInfo(name = "smallImage") val smallImage: Int,
   @ColumnInfo(name = "details") val details: RecipeDetails,
   @PrimaryKey val id: String

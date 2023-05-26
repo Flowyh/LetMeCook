@@ -10,10 +10,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MainBundledViewModel @Inject constructor(
   private val repository: FirestoreRepository,
-  private val savedStateHandle: SavedStateHandle
+  private val savedStateHandle: SavedStateHandle,
+  val roomRepository: RoomRepositoryImpl
 ) : ViewModel() {
-  @Inject
-  lateinit var roomRepository: RoomRepositoryImpl
 
   val recipeViewModel: RecipeViewModel = RecipeViewModel(savedStateHandle)
 
@@ -33,4 +32,9 @@ class MainBundledViewModel @Inject constructor(
     savedStateHandle,
     recipeViewModel::updateRecipeList
   )
+
+  init {
+    recipeViewModel.addRecipeRating(roomRepository.getAllByRating())
+    recipeViewModel.updateFavoriteRecipes(roomRepository.getAllByRating())
+  }
 }
