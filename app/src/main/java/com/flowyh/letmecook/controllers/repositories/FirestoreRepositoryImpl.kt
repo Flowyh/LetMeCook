@@ -38,18 +38,9 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             .addOnSuccessListener { recipes ->
                 for (document in recipes) {
                     recipeBodies.add(document)
-                }}
-            .addOnFailureListener { e -> Log.w(TAG, "Error getting collection", e) }
-            .await()
-
-
-        // ----- Get descriptions -----
-        db.collection("description")
-            .get()
-            .addOnSuccessListener { descriptions ->
-                for (document in descriptions) {
-                    recipeDescriptions.add(document)
-                }}
+                }
+                Log.d(TAG, "Document obtained successfully!")
+            }
             .addOnFailureListener { e -> Log.w(TAG, "Error getting collection", e) }
             .await()
 
@@ -60,7 +51,22 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             .addOnSuccessListener { ingredients ->
                 for (document in ingredients) {
                     recipeIngredients.add(document)
-                }}
+                }
+                Log.d(TAG, "Document ingredients obtained successfully!")
+            }
+            .addOnFailureListener { e -> Log.w(TAG, "Error getting collection", e) }
+            .await()
+
+
+        // ----- Get descriptions -----
+        db.collection("description")
+            .get()
+            .addOnSuccessListener { descriptions ->
+                for (document in descriptions) {
+                    recipeDescriptions.add(document)
+                }
+                Log.d(TAG, "Document obtained successfully!")
+            }
             .addOnFailureListener { e -> Log.w(TAG, "Error getting collection", e) }
             .await()
 
@@ -105,7 +111,8 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
                 difficulty = recDifficulty,
                 servings = recServings,
                 rating = recRating,
-                details = recDetails
+                details = recDetails,
+                id = recId
             )
 
 
@@ -187,7 +194,83 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             difficulty = recDifficulty,
             servings = recServings,
             rating = recRating,
-            details = recDetails
+            details = recDetails,
+            id = recipeId
+        )!!
+    }
+
+
+
+
+    override suspend fun getRecipeById(recipeId: String): Recipe {
+        val recipeIngredients = ArrayList<DocumentSnapshot>()
+
+
+        // ----- Get recipe body -----
+        val recipeBody = db.collection("recipe_body")
+            .document(recipeId)
+            .get()
+            .addOnSuccessListener { Log.d(TAG, "Document obtained successfully!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error getting document", e) }
+            .await()
+
+
+        // ----- Get recipe description -----
+        val recipeDescription = db.collection("description")
+            .document(recipeId)
+            .get()
+            .addOnSuccessListener { Log.d(TAG, "Document obtained successfully!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error getting document", e) }
+            .await()
+
+
+        // ----- Get ingredients -----
+        db.collection("ingredients_list")
+            .whereEqualTo("recipe_id", recipeId)
+            .get()
+            .addOnSuccessListener { ingredients ->
+                for (document in ingredients) {
+                    recipeIngredients.add(document)
+                }
+                Log.d(TAG, "Document obtained successfully!")
+            }
+            .addOnFailureListener { e -> Log.w(TAG, "Error getting document", e) }
+            .await()
+
+
+        // ----- Create RecipeIngredients list for RecipeDetails  -----
+        val ingredientsList = getRecipeIngredients(recipeId, recipeIngredients)
+
+        // ----- Create RecipeFilter list for RecipeDetails -----
+        val filtersList = getRecipeFilters(recipeBody)
+
+        // ----- Create RecipeDetails for Recipe -----
+        val bodyDescription = recipeBody.getString("description")!!
+        val bodySteps = recipeBody.get("steps") as ArrayList<String>
+
+
+        // ----- Create Recipe -----
+        val recTitle      = recipeDescription.getString("title")!!
+        val recTime       = "${recipeDescription.get("time")} min"
+        val recDifficulty = recipeDescription.getField<Int>("difficulty")!!
+        val recServings   = recipeDescription.getField<Int>("portions")!!
+        val recRating     = recipeBody.getField<Float>("rating")!!
+        val recDetails    = createRecipeDetails(
+            description = bodyDescription,
+            ingredients = ingredientsList,
+            steps = bodySteps,
+            filters = filtersList
+        )!!
+
+
+        return createRecipe(
+            title = recTitle,
+            time = recTime,
+            difficulty = recDifficulty,
+            servings = recServings,
+            rating = recRating,
+            details = recDetails,
+            id = recipeId
         )!!
     }
 
@@ -277,7 +360,8 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
                 difficulty = recDifficulty,
                 servings = recServings,
                 rating = recRating,
-                details = recDetails
+                details = recDetails,
+                id = recId
             )
 
 

@@ -9,6 +9,8 @@ interface FirestoreRepository {
 
   suspend fun getRecipeByIndex(index: Int): Recipe
 
+  suspend fun getRecipeById(recipeId: String): Recipe
+
   suspend fun getRecipesForFilter(filters: List<String>): List<Recipe>
 
   suspend fun getCourseFilters(): List<RecipeFilter>
