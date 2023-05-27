@@ -1,6 +1,5 @@
 package com.flowyh.letmecook.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -15,11 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.flowyh.letmecook.R
 import com.flowyh.letmecook.models.*
 import com.flowyh.letmecook.ui.components.*
 import com.flowyh.letmecook.ui.theme.*
@@ -89,21 +90,21 @@ fun RecipeScreen(
             .fillMaxHeight(0.1f),
           text = "Time: ${recipe.time}",
           icon = cookingTimeIcon,
-          contentDescription = "cooking time"
+          contentDescription = stringResource(R.string.cooking_time_icon_content_description)
         )
         RecipeScreenQuickDetail(
           modifier = Modifier
             .fillMaxHeight(0.1f),
           text = "Servings: ${recipe.servings}",
           icon = servingsIcon,
-          contentDescription = "servings"
+          contentDescription = stringResource(R.string.servings_icon_content_description)
         )
         RecipeScreenQuickDetail(
           modifier = Modifier
             .fillMaxHeight(0.1f),
           text = "Difficulty: ${recipe.difficulty}/3",
           icon = difficultyIcon,
-          contentDescription = "difficulty"
+          contentDescription = stringResource(R.string.difficulty_icon_content_description)
         )
       }
       // Spacer with primary color
@@ -119,6 +120,7 @@ fun RecipeScreen(
           .padding(vertical = MaterialTheme.spacing.small),
         cardTopLeadingContent = { },
         cardTopTrailingContent = { modifier ->
+          val addSnackBarText = stringResource(R.string.shopping_list_add_ingredients_snackbar)
           IconButton(
             onClick = {
               val sl: ShoppingList = createShoppingList(
@@ -130,11 +132,9 @@ fun RecipeScreen(
                 Calendar.getInstance().timeInMillis / (1000 * 60 * 60 * 24)
               )!!
               viewModel.shoppingListViewModel.addShoppingList(sl)
-/*              viewModel.roomRepository.insertAllShoppingLists(listOf(sl))*/
-              // TODO: use viewModel to add to shopping list
               scope.launch {
                 snackBarHostState.showSnackbar(
-                  message = "Added ingredients as a shopping list",
+                  message = addSnackBarText,
                 )
               }
             },
@@ -144,24 +144,19 @@ fun RecipeScreen(
           ) {
             Icon(
               imageVector = shoppingListIcon,
-              contentDescription = "add as shopping list",
+              contentDescription =
+                stringResource(R.string.shopping_list_add_icon_content_description),
               tint = MaterialTheme.colorScheme.primary
             )
           }
         },
-        abi = listOf<Int>(),
-        onIconClicked = { state, index -> //TODO UPDATE ALREADYBOUGHT
-
-          if(!state){
-            Log.i("ABI", alreadyBoughtIngredients.toString())
-            if(!alreadyBoughtIngredients.contains(index)){
-              Log.i("ABI", index.toString())
+        abi = listOf(),
+        onIconClicked = { state, index ->
+          if (!state) {
+            if (!alreadyBoughtIngredients.contains(index))
               alreadyBoughtIngredients = alreadyBoughtIngredients + index
-            }
-
-          } else{
+          } else
             alreadyBoughtIngredients = alreadyBoughtIngredients.filter{it != index}
-          }
         }
       )
       // Instructions
@@ -176,16 +171,10 @@ fun RecipeScreen(
       RecipeScreenRateIt(
         rating = rating
       ) { newRating ->
-        recipe.rating = newRating
-        if (rating == 0f) viewModel.roomRepository.insert(recipe)
-        else viewModel.roomRepository.updateRating(recipe)
-
         rating = newRating
-        viewModel.recipeViewModel.updateRecipeRating(newRating, recipe.id)
-        viewModel.recipeViewModel.updateFavoriteRecipes(
-          viewModel.roomRepository.getAllByRating()
-        )
-
+        recipe.rating = newRating
+        if (!viewModel.isRated(recipe.id)) viewModel.insertFavoriteRecipe(recipe)
+        else viewModel.updateRating(recipe, newRating)
       }
     }
   }
@@ -403,7 +392,7 @@ fun RecipeScreenQuickDetail(
 @Composable
 fun RecipeScreenIngredients(
   modifier: Modifier = Modifier,
-  cardTitle: String = "Ingredients",
+  cardTitle: String = stringResource(R.string.ingredients_list_content_description),
   cardTitleTypography: TextStyle = MaterialTheme.typography.headlineMedium,
   cardTopLeadingContent: @Composable (Modifier) -> Unit = {},
   cardTopTrailingContent: @Composable (Modifier) -> Unit = {},
@@ -455,7 +444,7 @@ fun RecipeScreenIngredients(
             textStyle = MaterialTheme.typography.bodyLarge,
             inactiveIcon = inactiveIconValue,
             activeIcon = activeIconValue,
-            iconContentDescription = "Ingredient",
+            iconContentDescription = ingredient.name,
             iconTint = MaterialTheme.colorScheme.primary,
             iconModifier = Modifier
               .padding(end = MaterialTheme.spacing.tiny),
@@ -485,7 +474,7 @@ fun RecipeScreenInstructions(
     verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny)
   ) {
     RecipeScreenTitle(
-      title = "Instructions",
+      title = stringResource(R.string.instructions_title),
       fontTypography = MaterialTheme.typography.headlineMedium,
       color = MaterialTheme.colorScheme.onSurface,
     )

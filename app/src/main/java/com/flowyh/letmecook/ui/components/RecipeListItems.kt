@@ -11,11 +11,13 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.flowyh.letmecook.R
 import com.flowyh.letmecook.models.*
 import com.flowyh.letmecook.ui.theme.*
 
@@ -33,10 +35,14 @@ fun RecipeListItemTextIcon(
       ),
     text = text,
     textModifier = Modifier.fillMaxWidth(),
+    textStyle = TextStyle(
+      color = MaterialTheme.colorScheme.primary,
+    ),
     icon = icon,
     iconModifier = Modifier
       .padding(end = MaterialTheme.spacing.tiny),
     iconContentDescription = contentDescription,
+    iconTint = MaterialTheme.colorScheme.primary
   )
 }
 
@@ -102,22 +108,22 @@ fun RecipeListItem(
         RecipeListItemTextIcon(
           text = recipe.title,
           icon = recipeTitleIcon,
-          contentDescription = "recipe title"
+          contentDescription = stringResource(R.string.recipe_title_icon_content_description)
         )
         RecipeListItemTextIcon(
           text = recipe.time,
           icon = cookingTimeIcon,
-          contentDescription = "cooking time"
+          contentDescription = stringResource(R.string.cooking_time_icon_content_description)
         )
         RecipeListItemTextIcon(
           text= "Difficulty: ${recipe.difficulty}",
           icon = difficultyIcon,
-          contentDescription = "difficulty"
+          contentDescription = stringResource(R.string.difficulty_icon_content_description)
         )
         RecipeListItemTextIcon(
           text= "Servings: ${recipe.servings}",
           icon = servingsIcon,
-          contentDescription = "servings"
+          contentDescription = stringResource(R.string.servings_icon_content_description)
         )
       }
       if (!imageOnLeft)
@@ -161,7 +167,7 @@ fun FavoriteRecipeListItem(
             ),
           text = recipe.title,
           style = TextStyle (
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.primary,
             fontSize = MaterialTheme.typography.headlineSmall.fontSize,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center

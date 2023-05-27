@@ -1,7 +1,5 @@
 package com.flowyh.letmecook.viewmodels
 
-import android.util.Log
-import androidx.compose.runtime.rememberCompositionContext
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,12 +7,8 @@ import com.flowyh.letmecook.controllers.repositories.FirestoreRepositoryImpl
 import com.flowyh.letmecook.controllers.repositories.RoomRepositoryImpl
 import com.flowyh.letmecook.models.*
 import com.flowyh.letmecook.ui.screens.destinations.RecipeScreenDestination
-import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
-import java.util.*
-import javax.inject.Inject
-import kotlin.random.Random.Default.nextInt
 
 class ShoppingListViewModel(
     private val savedStateHandle: SavedStateHandle,

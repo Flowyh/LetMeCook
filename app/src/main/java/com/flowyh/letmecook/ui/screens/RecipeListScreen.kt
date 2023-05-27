@@ -1,9 +1,12 @@
 package com.flowyh.letmecook.ui.screens
 
-import android.util.Log
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
@@ -13,12 +16,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.flowyh.letmecook.models.Recipe
 import com.flowyh.letmecook.ui.components.*
 import com.flowyh.letmecook.ui.screens.destinations.RecipeScreenDestination
 import com.flowyh.letmecook.ui.theme.spacing
@@ -30,7 +36,9 @@ import kotlinx.coroutines.launch
 
 @RootNavGraph(start = true)
 @Destination
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,
+  ExperimentalFoundationApi::class
+)
 @Composable
 fun RecipeListScreen(
   viewModel: MainBundledViewModel,
@@ -38,27 +46,24 @@ fun RecipeListScreen(
   navController: NavController,
 ) {
   // UI state
+  val scope = rememberCoroutineScope()
   val listState = rememberLazyListState()
 
   // View model values
-  viewModel.loadRecipes()
   val recipesList = viewModel.recipes.collectAsStateWithLifecycle()
   val filters = viewModel.filters.collectAsStateWithLifecycle()
   val activeFilters = viewModel.activeFilters.collectAsStateWithLifecycle()
 
   // Refreshing
   val refreshScope = rememberCoroutineScope()
-  var isRefreshing by remember { mutableStateOf(false) }
-  fun refresh() = refreshScope.launch {
-    isRefreshing = true
+  val isRefreshing by viewModel.isLoading.observeAsState()
 
-    // TODO: Update checked filters
+  fun refresh() = refreshScope.launch {
     viewModel.onRecipeListRefresh()
-    isRefreshing = false
   }
 
   val refreshState = rememberPullRefreshState(
-    refreshing = isRefreshing,
+    refreshing = isRefreshing!!,
     onRefresh = ::refresh,
     refreshThreshold = (LocalConfiguration.current.screenHeightDp / 13).dp
   )
@@ -94,11 +99,14 @@ fun RecipeListScreen(
         filters = filters.value,
         selectedFilters = activeFilters.value,
         onFilterSelected = {
-          viewModel.onFilterSelected(it)
+          scope.launch {
+            listState.animateScrollToItem(0)
+            viewModel.onFilterSelected(it)
+          }
         }
       )
       Box(
-        modifier = Modifier.pullRefresh(refreshState)
+        modifier = Modifier.pullRefresh(refreshState).zIndex(-1f)
       ) {
         LazyColumn(
           modifier = Modifier
@@ -107,9 +115,18 @@ fun RecipeListScreen(
           state = listState,
           verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
         ) {
-          items(recipesList.value.size) { item ->
+          itemsIndexed(
+            items = recipesList.value,
+            key = { _: Int, item: Recipe -> item.id }
+          ) { i, item: Recipe ->
             RecipeListItem(
-              recipe = recipesList.value[item],
+              modifier = Modifier.animateItemPlacement(
+                animationSpec = tween(
+                  durationMillis = 500,
+                  easing = LinearOutSlowInEasing,
+                )
+              ),
+              recipe = item,
               onRecipeClick = { recipe ->
                 navigator.navigate(
                   RecipeScreenDestination(
@@ -117,14 +134,14 @@ fun RecipeListScreen(
                   )
                 )
               },
-              imageOnLeft = item % 2 == 0
+              imageOnLeft = i % 2 == 0
             )
           }
         }
 
         PullRefreshIndicator(
           modifier = Modifier.align(Alignment.TopCenter),
-          refreshing = isRefreshing,
+          refreshing = isRefreshing!!,
           state = refreshState,
           backgroundColor = MaterialTheme.colorScheme.primaryContainer,
           contentColor = MaterialTheme.colorScheme.primary

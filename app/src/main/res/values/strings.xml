@@ -6,4 +6,15 @@
     <string name="top_app_bar_close_content_description">close</string>
     <string name="rating_star_content_description">rating star</string>
     <string name="top_app_bar_go_back_content_description">go back</string>
+    <string name="recipe_title_icon_content_description">recipe title</string>
+    <string name="cooking_time_icon_content_description">cooking time</string>
+    <string name="difficulty_icon_content_description">difficulty</string>
+    <string name="servings_icon_content_description">servings</string>
+    <string name="shopping_list_add_ingredients_snackbar">Added ingredients as a shopping list</string>
+    <string name="shopping_list_add_icon_content_description">add as shopping list</string>
+    <string name="ingredients_list_content_description">Ingredients</string>
+    <string name="instructions_title">Instructions</string>
+    <string name="launch_icon_content_description">go to recipe</string>
+    <string name="shopping_list_remove_content_description">Removed shopping list</string>
+    <string name="shopping_list_delete_icon_content_description">delete shopping list</string>
 </resources>
