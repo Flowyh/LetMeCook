@@ -24,7 +24,8 @@ class MainBundledViewModel @Inject constructor(
   val activeFilters = recipeViewModel.activeFilters
 
   val onFilterSelected = recipeViewModel::onFilterSelected
-  val onRecipeListRefresh = recipeViewModel::onRecipeListRefresh
+  val onRecipeListRefresh = recipeViewModel::loadData
+  val loadRecipes = recipeViewModel::loadData
 
   // TODO: Add shopping list stuff (view model or fields)
 

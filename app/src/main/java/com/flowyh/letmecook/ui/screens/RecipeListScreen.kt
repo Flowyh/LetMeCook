@@ -41,6 +41,7 @@ fun RecipeListScreen(
   val listState = rememberLazyListState()
 
   // View model values
+  viewModel.loadRecipes()
   val recipesList = viewModel.recipes.collectAsStateWithLifecycle()
   val filters = viewModel.filters.collectAsStateWithLifecycle()
   val activeFilters = viewModel.activeFilters.collectAsStateWithLifecycle()
@@ -50,6 +51,8 @@ fun RecipeListScreen(
   var isRefreshing by remember { mutableStateOf(false) }
   fun refresh() = refreshScope.launch {
     isRefreshing = true
+
+    // TODO: Update checked filters
     viewModel.onRecipeListRefresh()
     isRefreshing = false
   }

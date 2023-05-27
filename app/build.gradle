@@ -83,6 +83,9 @@ dependencies {
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
+    // Firebase
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.6.0'
+
     implementation "io.github.raamcosta.compose-destinations:animations-core:$destinations_version"
     ksp "io.github.raamcosta.compose-destinations:ksp:$destinations_version"
 
@@ -129,3 +132,5 @@ dependencies {
 hilt {
     enableAggregatingTask = true
 }
+
+apply plugin: 'com.google.gms.google-services'
