@@ -70,15 +70,12 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             .addOnFailureListener { e -> Log.w(TAG, "Error getting collection", e) }
             .await()
 
-
-
         // ----- Create Recipe list -----
         for (recipe in recipeDescriptions) {
             val recId   = recipe.id
             val recBody = recipeBodies.find {
                 it.id == recId
             }!!
-
 
             // ----- Create RecipeIngredients list for RecipeDetails  -----
             val ingredientsList = getRecipeIngredients(recId, recipeIngredients)

@@ -5,9 +5,12 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.flowyh.letmecook.models.Recipe
+import com.flowyh.letmecook.models.ShoppingList
 
 @Dao
 interface RoomRepositoryDao {
+
+  //-------------Favourite recipe queries---------------------------
   @Query("SELECT * FROM favourites")
   fun getAll(): List<Recipe>
 
@@ -26,4 +29,19 @@ interface RoomRepositoryDao {
 
   @Delete
   fun deleteAll(recipes: List<Recipe>)
+
+  //-------------ShoppingList queries-------------------------------
+
+  @Query("SELECT * FROM shoppingLists ORDER BY dateTime DESC")
+  fun getAllShoppingLists(): List<ShoppingList>
+
+  @Query("UPDATE shoppingLists SET alreadyBoughtIngredients = :alreadyBought WHERE id = :id")
+  fun updateAlreadyBoughtIngredients(id: Int, alreadyBought: List<Int>)
+
+  @Insert
+  fun insertAllShoppingLists(vararg lists: ShoppingList)
+
+  @Delete
+  fun delete(list: ShoppingList)
+
 }

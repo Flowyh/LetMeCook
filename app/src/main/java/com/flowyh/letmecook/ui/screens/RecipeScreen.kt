@@ -1,5 +1,6 @@
 package com.flowyh.letmecook.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -110,6 +111,7 @@ fun RecipeScreen(
       // Description
       RecipeScreenDescription(description = recipe.details.description)
       // Ingredients
+      var alreadyBoughtIngredients = listOf<Int>()
       RecipeScreenIngredients(
         ingredients = recipe.details.ingredients,
         modifier = Modifier
@@ -119,6 +121,16 @@ fun RecipeScreen(
         cardTopTrailingContent = { modifier ->
           IconButton(
             onClick = {
+              val sl: ShoppingList = createShoppingList(
+                Random().nextInt(),
+                recipe.details.ingredients,
+                alreadyBoughtIngredients,
+                recipe.title,
+                recipe.id,
+                Calendar.getInstance().timeInMillis / (1000 * 60 * 60 * 24)
+              )!!
+              viewModel.shoppingListViewModel.addShoppingList(sl)
+/*              viewModel.roomRepository.insertAllShoppingLists(listOf(sl))*/
               // TODO: use viewModel to add to shopping list
               scope.launch {
                 snackBarHostState.showSnackbar(
@@ -135,6 +147,20 @@ fun RecipeScreen(
               contentDescription = "add as shopping list",
               tint = MaterialTheme.colorScheme.primary
             )
+          }
+        },
+        abi = listOf<Int>(),
+        onIconClicked = { state, index -> //TODO UPDATE ALREADYBOUGHT
+
+          if(!state){
+            Log.i("ABI", alreadyBoughtIngredients.toString())
+            if(!alreadyBoughtIngredients.contains(index)){
+              Log.i("ABI", index.toString())
+              alreadyBoughtIngredients = alreadyBoughtIngredients + index
+            }
+
+          } else{
+            alreadyBoughtIngredients = alreadyBoughtIngredients.filter{it != index}
           }
         }
       )
@@ -382,7 +408,8 @@ fun RecipeScreenIngredients(
   cardTopLeadingContent: @Composable (Modifier) -> Unit = {},
   cardTopTrailingContent: @Composable (Modifier) -> Unit = {},
   ingredients: List<RecipeIngredient>,
-  onIconClicked: (Boolean) -> Unit = {},
+  abi: List<Int>,
+  onIconClicked: (Boolean, Int) -> Unit,
 ) {
   Card(
     modifier = modifier,
@@ -411,7 +438,13 @@ fun RecipeScreenIngredients(
           Modifier.align(Alignment.CenterEnd)
         )
       }
-      for (ingredient in ingredients) {
+      for ((i, ingredient) in ingredients.withIndex()) {
+        var inactiveIconValue = Icons.Default.CheckBoxOutlineBlank
+        var activeIconValue = Icons.Default.CheckBox
+        if(abi.contains(i)){
+          inactiveIconValue = Icons.Default.CheckBox
+          activeIconValue = Icons.Default.CheckBoxOutlineBlank
+        }
         Row(
           modifier = Modifier.fillMaxWidth(),
           verticalAlignment = Alignment.CenterVertically,
@@ -420,13 +453,13 @@ fun RecipeScreenIngredients(
           ClickableIconWithText(
             text = ingredient.name,
             textStyle = MaterialTheme.typography.bodyLarge,
-            inactiveIcon = Icons.Default.CheckBoxOutlineBlank,
-            activeIcon = Icons.Default.CheckBox,
+            inactiveIcon = inactiveIconValue,
+            activeIcon = activeIconValue,
             iconContentDescription = "Ingredient",
             iconTint = MaterialTheme.colorScheme.primary,
             iconModifier = Modifier
               .padding(end = MaterialTheme.spacing.tiny),
-            onIconClick = onIconClicked
+            onIconClick = { onIconClicked(it, i) }
           )
           Box(
             modifier = Modifier.fillMaxHeight(),

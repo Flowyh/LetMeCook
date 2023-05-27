@@ -87,6 +87,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:24.6.0'
 
     implementation "io.github.raamcosta.compose-destinations:animations-core:$destinations_version"
+    implementation 'androidx.room:room-common:2.5.1'
     ksp "io.github.raamcosta.compose-destinations:ksp:$destinations_version"
 
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
