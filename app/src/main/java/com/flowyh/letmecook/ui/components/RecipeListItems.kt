@@ -199,7 +199,7 @@ fun FavoriteRecipeListItem(
 fun FavoriteRecipeListItemPreview() {
   FavoriteRecipeListItem(
     recipe = createRecipe(
-      title = "Recipe titleeeeeeeeeee",
+      title = "Recipe title",
       time = "30 min",
       difficulty = 3,
       servings = 3,

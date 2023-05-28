@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import com.flowyh.letmecook.R
 
-// TODO: better onEvent names
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBarWithSearchBar(
