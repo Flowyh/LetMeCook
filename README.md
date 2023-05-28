@@ -58,33 +58,45 @@ Each layer is split into different subpackages:
 ### Light Mode
 
 - Recipe List view
-![light mode preview](./pictures/light_mode.png)
+
+<p align="center">
+    <img src="./pictures/light_mode.png" alt= “” width="288" height="608">
+</p>
+
 
 - Detailed recipe view
 
-![recipe view 1](./pictures/recipeview.png)
+<p align="center">
+    <img src="./pictures/recipeview.png" alt= “” width="288" height="608">
+    <img src="./pictures/recipeview2.png" alt= “” width="288" height="608">
+</p>
 
-![recipe view 2](./pictures/recipeview2.png)
 
-- Searching by name
+- Searching by name/filter
 
-![searching](./pictures/searchbar.png)
+<p align="center">
+    <img src="./pictures/searchbar.png" alt= “” width="288" height="608">
+    <img src="./pictures/fliters.png" alt= “” width="288" height="608">
+</p>
 
-- Searching using filters
-
-![filtering](./pictures/fliters.png)
 
 - Rated recipes view
+<p align="center">
+    <img src="./pictures/favorites.png" alt= “” width="288" height="608">
+</p>
 
-![favorite](./pictures/favorites.png)
 
 - Shopping list view
 
-![shopping list](./pictures/shoppinglist.png)
+<p align="center">
+    <img src="./pictures/shoppinglist.png" alt= “” width="288" height="608">
+</p>
 
 ### Dark Mode
 
-![dark mode preview](./pictures/darkmode.png)
+<p align="center">
+    <img src="./pictures/darkmode.png" alt= “” width="288" height="608">
+</p>
 
 ## Features
 
