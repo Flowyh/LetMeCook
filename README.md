@@ -55,7 +55,36 @@ Each layer is split into different subpackages:
 
 ## Quick look
 
-// TODO: video and screenshots
+### Light Mode
+
+- Recipe List view
+![light mode preview](./pictures/light_mode.png)
+
+- Detailed recipe view
+
+![recipe view 1](./pictures/recipeview.png)
+
+![recipe view 2](./pictures/recipeview2.png)
+
+- Searching by name
+
+![searching](./pictures/searchbar.png)
+
+- Searching using filters
+
+![filtering](./pictures/fliters.png)
+
+- Rated recipes view
+
+![favorite](./pictures/favorites.png)
+
+- Shopping list view
+
+![shopping list](./pictures/shoppinglist.png)
+
+### Dark Mode
+
+![dark mode preview](./pictures/darkmode.png)
 
 ## Features
 
