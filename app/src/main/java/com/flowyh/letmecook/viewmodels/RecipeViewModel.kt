@@ -149,4 +149,8 @@ class RecipeViewModel(
 
     return _recipesList[index]
   }
+
+  fun getRecipeById(id: String): Recipe {
+    return _recipesList.first { it.id == id }
+  }
 }

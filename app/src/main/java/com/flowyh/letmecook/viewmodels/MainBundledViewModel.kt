@@ -33,8 +33,11 @@ class MainBundledViewModel @Inject constructor(
   val onFilterSelected = recipeViewModel::onFilterSelected
   val onRecipeListRefresh = recipeViewModel::reloadData
 
-  val shoppingListViewModel =
-    ShoppingListViewModel(firestoreRepository, roomRepository, savedStateHandle)
+  val shoppingListViewModel = ShoppingListViewModel(
+    roomRepository,
+    savedStateHandle,
+    recipeViewModel::getRecipeById
+  )
   val shoppingLists = shoppingListViewModel.shoppingListsState
 
   val searchBarViewModel = SearchBarViewModel(

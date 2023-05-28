@@ -11,9 +11,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
 
 class ShoppingListViewModel(
-    private val firestoreRepository: FirestoreRepository,
     private val roomRepository: RoomRepositoryImpl,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    private val getRecipeById: (String) -> Recipe
 ): ViewModel() {
 
     var shoppingLists: List<ShoppingList> = roomRepository.getShoppingLists()
@@ -50,11 +50,10 @@ class ShoppingListViewModel(
 
     fun jumpToRecipeFromId(id: String, navigator: DestinationsNavigator){
         viewModelScope.launch {
-            val recipesList = firestoreRepository.getAllRecipes()
-            val recipe = recipesList.filter { it.id == id }
+            val recipe = getRecipeById(id)
             navigator.navigate(
                 RecipeScreenDestination(
-                    recipe = recipe[0]
+                    recipe = recipe
                 )
             )
         }
