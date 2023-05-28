@@ -17,9 +17,10 @@ class RecipeViewModel(
 ): ViewModel() {
   private var _recipesList by mutableStateOf(listOf<Recipe>())
   var recipes = savedStateHandle.getStateFlow("recipes", _recipesList)
-  
+
+  private val allFilter = createRecipeFilter(FilterType.ALL, "All")!!
   private var _filters by
-    mutableStateOf(listOf(createRecipeFilter(FilterType.ALL, "All")!!))
+    mutableStateOf(listOf(allFilter))
   val filters = savedStateHandle.getStateFlow("filters", _filters)
   val activeFilters = savedStateHandle.getStateFlow("activeFilters", listOf(_filters[0]))
 
@@ -36,7 +37,7 @@ class RecipeViewModel(
       _recipesList = firestoreRepository.getAllRecipes()
       savedStateHandle["recipes"] = _recipesList
 
-      _filters = _filters + firestoreRepository.getCourseFilters()
+      _filters = listOf(allFilter) + firestoreRepository.getCourseFilters()
       savedStateHandle["filters"] = _filters
 
       val ratedRecipes = roomRepository.getAllByRating()

@@ -5,8 +5,13 @@ import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
 enum class IngredientType {
-  OTHER,
-
+  VEGETABLE,
+  FRUIT,
+  MEAT,
+  DAIRY,
+  GRAIN,
+  SPICE,
+  OTHER
 }
 
 @Parcelize
