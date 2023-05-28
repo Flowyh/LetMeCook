@@ -4,10 +4,8 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.flowyh.letmecook.R
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
-import java.time.LocalDateTime
 
 @Entity(tableName = "shoppingLists")
 @Parcelize

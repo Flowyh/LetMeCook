@@ -1,16 +1,9 @@
 package com.flowyh.letmecook.models
 
 import android.os.Parcelable
-import android.util.Log
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
-import com.flowyh.letmecook.R
-import com.google.gson.Gson
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
-import java.lang.reflect.Type
+
 
 @Parcelize
 data class RecipeDetails internal constructor(

@@ -5,14 +5,8 @@ import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
 enum class IngredientType {
-  VEGETABLE,
-  FRUIT,
-  MEAT,
-  DAIRY,
-  GRAIN,
-  SPICE,
   OTHER,
-  // TODO: Find types for pasta, rice etc.
+
 }
 
 @Parcelize

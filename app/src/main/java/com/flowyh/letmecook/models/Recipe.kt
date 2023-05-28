@@ -1,9 +1,7 @@
 package com.flowyh.letmecook.models
 
-import android.net.Uri
 import android.os.Parcelable
 import androidx.room.*
-import com.flowyh.letmecook.R
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 import java.util.UUID
@@ -20,14 +18,6 @@ data class Recipe internal constructor(
   @ColumnInfo(name = "details") val details: RecipeDetails,
   @PrimaryKey val id: String
 ) : Serializable, Parcelable {
-  fun doesMatchDifficulty(query: String): Boolean {
-    return when (query.lowercase()) {
-      "easy"    -> difficulty == 1
-      "medium"  -> difficulty == 2
-      "hard"    -> difficulty == 3
-      else      -> false
-    }
-  }
 
   fun doesMatchQuery(query: String): Boolean {
     val matchingCombinations: List<String> = listOf(
