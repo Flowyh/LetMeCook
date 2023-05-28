@@ -286,6 +286,7 @@ fun RecipeScreenTitle(
   title: String,
   color: Color = MaterialTheme.colorScheme.primary,
   fontTypography: TextStyle = MaterialTheme.typography.headlineLarge,
+  textAlign: TextAlign = TextAlign.Start
 ) {
   Box(
     modifier = modifier,
@@ -297,6 +298,7 @@ fun RecipeScreenTitle(
         color = color,
         fontSize = fontTypography.fontSize,
         fontWeight = FontWeight.Bold,
+        textAlign = textAlign
       ),
       modifier = Modifier
     )
@@ -424,10 +426,13 @@ fun RecipeScreenIngredients(
           Modifier.align(Alignment.CenterStart)
         )
         RecipeScreenTitle(
-          modifier = Modifier.align(Alignment.Center),
+          modifier = Modifier
+            .fillMaxWidth(0.7f)
+            .align(Alignment.Center),
           title = cardTitle,
           fontTypography = cardTitleTypography,
           color = MaterialTheme.colorScheme.primary,
+          textAlign = TextAlign.Center
         )
         cardTopTrailingContent(
           Modifier.align(Alignment.CenterEnd)

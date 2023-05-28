@@ -52,7 +52,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
                 for (document in ingredients) {
                     recipeIngredients.add(document)
                 }
-                Log.d(TAG, "Document ingredients obtained successfully!")
+                Log.d(TAG, "Document obtained successfully!")
             }
             .addOnFailureListener { e -> Log.w(TAG, "Error getting collection", e) }
             .await()
@@ -85,6 +85,10 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
             // ----- Create RecipeDetails for Recipe -----
             val bodyDescription = recBody.getString("description")!!
+            Log.d(TAG, "BEFORE RECIPEBODY: ${recBody}")
+            val bodyImage       = recipe.getString("url_main")!!
+            Log.d(TAG, "AFTER RECIPEBODY: ${recBody}  ||||   ${bodyImage}")
+
             val bodySteps       = recBody.get("steps") as ArrayList<String>
 
 
@@ -94,7 +98,9 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             val recDifficulty = recipe.getField<Int>("difficulty")!!
             val recServings   = recipe.getField<Int>("portions")!!
             val recRating     = recBody.getField<Float>("rating")!!
+            val recImage      = recBody.getString("detailed_url")!!
             val recDetails    = createRecipeDetails(
+                bigImage = bodyImage,
                 description = bodyDescription,
                 ingredients = ingredientsList,
                 steps = bodySteps,
@@ -108,6 +114,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
                 difficulty = recDifficulty,
                 servings = recServings,
                 rating = recRating,
+                smallImage = recImage,
                 details = recDetails,
                 id = recId
             )
@@ -168,7 +175,8 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
         // ----- Create RecipeDetails for Recipe -----
         val bodyDescription = recipeBody.getString("description")!!
-        val bodySteps = recipeBody.get("steps") as ArrayList<String>
+        val bodyImage       = recipeDescription.getString("url_main")!!
+        val bodySteps       = recipeBody.get("steps") as ArrayList<String>
 
 
         // ----- Create Recipe -----
@@ -177,7 +185,9 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         val recDifficulty = recipeDescription.getField<Int>("difficulty")!!
         val recServings   = recipeDescription.getField<Int>("portions")!!
         val recRating     = recipeBody.getField<Float>("rating")!!
+        val recImage      = recipeBody.getString("detailed_url")!!
         val recDetails    = createRecipeDetails(
+            bigImage = bodyImage,
             description = bodyDescription,
             ingredients = ingredientsList,
             steps = bodySteps,
@@ -191,6 +201,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             difficulty = recDifficulty,
             servings = recServings,
             rating = recRating,
+            smallImage = recImage,
             details = recDetails,
             id = recipeId
         )!!
@@ -243,7 +254,8 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
         // ----- Create RecipeDetails for Recipe -----
         val bodyDescription = recipeBody.getString("description")!!
-        val bodySteps = recipeBody.get("steps") as ArrayList<String>
+        val bodyImage       = recipeDescription.getString("url_main")!!
+        val bodySteps       = recipeBody.get("steps") as ArrayList<String>
 
 
         // ----- Create Recipe -----
@@ -252,7 +264,9 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         val recDifficulty = recipeDescription.getField<Int>("difficulty")!!
         val recServings   = recipeDescription.getField<Int>("portions")!!
         val recRating     = recipeBody.getField<Float>("rating")!!
+        val recImage      = recipeBody.getString("detailed_url")!!
         val recDetails    = createRecipeDetails(
+            bigImage = bodyImage,
             description = bodyDescription,
             ingredients = ingredientsList,
             steps = bodySteps,
@@ -266,6 +280,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             difficulty = recDifficulty,
             servings = recServings,
             rating = recRating,
+            smallImage = recImage,
             details = recDetails,
             id = recipeId
         )!!
@@ -334,6 +349,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
             // ----- Create RecipeDetails for Recipe -----
             val bodyDescription = recBody.getString("description")!!
+            val bodyImage       = recipe.getString("url_main")!!
             val bodySteps       = recBody.get("steps") as ArrayList<String>
 
 
@@ -343,7 +359,9 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             val recDifficulty = recipe.getField<Int>("difficulty")!!
             val recServings   = recipe.getField<Int>("portions")!!
             val recRating     = recBody.getField<Float>("rating")!!
+            val recImage      = recBody.getString("detailed_url")!!
             val recDetails    = createRecipeDetails(
+                bigImage = bodyImage,
                 description = bodyDescription,
                 ingredients = ingredientsList,
                 steps = bodySteps,
@@ -357,6 +375,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
                 difficulty = recDifficulty,
                 servings = recServings,
                 rating = recRating,
+                smallImage = recImage,
                 details = recDetails,
                 id = recId
             )
