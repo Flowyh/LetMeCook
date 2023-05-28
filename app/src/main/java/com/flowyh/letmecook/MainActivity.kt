@@ -14,8 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.lifecycleScope
-import com.flowyh.letmecook.controllers.repositories.FirestoreRepositoryImpl
 import com.flowyh.letmecook.ui.screens.NavGraphs
 import com.flowyh.letmecook.ui.theme.LetMeCookTheme
 import com.flowyh.letmecook.viewmodels.MainBundledViewModel
@@ -26,7 +24,6 @@ import com.ramcosta.composedestinations.animations.defaults.RootNavGraphDefaultA
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.navigation.dependency
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -41,6 +38,8 @@ class MainActivity : ComponentActivity() {
         ) {
           val navController = rememberAnimatedNavController()
           val width = LocalConfiguration.current.screenWidthDp
+
+          val viewModel = hiltViewModel<MainBundledViewModel>(this@MainActivity)
 
           val navHostEngine = rememberAnimatedNavHostEngine(
             navHostContentAlignment = Alignment.TopCenter,
@@ -87,7 +86,7 @@ class MainActivity : ComponentActivity() {
             navController = navController,
             engine = navHostEngine,
             dependenciesContainerBuilder = {
-              dependency(hiltViewModel<MainBundledViewModel>(this@MainActivity))
+              dependency(viewModel)
             }
           )
         }
