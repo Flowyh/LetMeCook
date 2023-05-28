@@ -9,13 +9,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainBundledViewModel @Inject constructor(
-  repository: FirestoreRepository,
+  firestoreRepository: FirestoreRepository,
   roomRepository: RoomRepositoryImpl,
   savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
   val recipeViewModel: RecipeViewModel =
-    RecipeViewModel(repository, roomRepository, savedStateHandle)
+    RecipeViewModel(firestoreRepository, roomRepository, savedStateHandle)
 
   val isLoading = recipeViewModel.isLoading
 
@@ -33,7 +33,8 @@ class MainBundledViewModel @Inject constructor(
   val onFilterSelected = recipeViewModel::onFilterSelected
   val onRecipeListRefresh = recipeViewModel::reloadData
 
-  val shoppingListViewModel = ShoppingListViewModel(savedStateHandle, roomRepository)
+  val shoppingListViewModel =
+    ShoppingListViewModel(firestoreRepository, roomRepository, savedStateHandle)
   val shoppingLists = shoppingListViewModel.shoppingListsState
 
   val searchBarViewModel = SearchBarViewModel(

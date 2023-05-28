@@ -1,5 +1,6 @@
 package com.flowyh.letmecook.models
 
+import android.net.Uri
 import android.os.Parcelable
 import androidx.room.*
 import com.flowyh.letmecook.R
@@ -15,7 +16,7 @@ data class Recipe internal constructor(
   @ColumnInfo(name = "difficulty") val difficulty: Int,
   @ColumnInfo(name = "servings") val servings: Int,
   @ColumnInfo(name = "rating") var rating: Float,
-  @ColumnInfo(name = "smallImage") val smallImage: Int,
+  @ColumnInfo(name = "smallImage") val smallImage: String,
   @ColumnInfo(name = "details") val details: RecipeDetails,
   @PrimaryKey val id: String
 ) : Serializable, Parcelable {
@@ -63,7 +64,7 @@ fun createRecipe(
   difficulty: Int,
   servings: Int,
   rating: Float,
-  smallImage: Int = R.drawable.ic_launcher_background,
+  smallImage: String,
   details: RecipeDetails,
   id: String = UUID.randomUUID().toString()
 ): Recipe? {

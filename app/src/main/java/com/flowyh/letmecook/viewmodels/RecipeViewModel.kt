@@ -11,7 +11,7 @@ import java.util.*
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(
-  private val repository: FirestoreRepository,
+  private val firestoreRepository: FirestoreRepository,
   private val roomRepository: RoomRepositoryImpl,
   private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
@@ -33,10 +33,10 @@ class RecipeViewModel(
   fun reloadData() {
     viewModelScope.launch {
       _isLoading.value = true
-      _recipesList = repository.getAllRecipes()
+      _recipesList = firestoreRepository.getAllRecipes()
       savedStateHandle["recipes"] = _recipesList
 
-      _filters = _filters + repository.getCourseFilters()
+      _filters = _filters + firestoreRepository.getCourseFilters()
       savedStateHandle["filters"] = _filters
 
       val ratedRecipes = roomRepository.getAllByRating()

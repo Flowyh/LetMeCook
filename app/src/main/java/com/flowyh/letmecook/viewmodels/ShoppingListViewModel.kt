@@ -3,7 +3,7 @@ package com.flowyh.letmecook.viewmodels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.flowyh.letmecook.controllers.repositories.FirestoreRepositoryImpl
+import com.flowyh.letmecook.controllers.interfaces.FirestoreRepository
 import com.flowyh.letmecook.controllers.repositories.RoomRepositoryImpl
 import com.flowyh.letmecook.models.*
 import com.flowyh.letmecook.ui.screens.destinations.RecipeScreenDestination
@@ -11,13 +11,23 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
 
 class ShoppingListViewModel(
-    private val savedStateHandle: SavedStateHandle,
-    var roomRepository: RoomRepositoryImpl
+    private val firestoreRepository: FirestoreRepository,
+    private val roomRepository: RoomRepositoryImpl,
+    private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    val db = FirestoreRepositoryImpl()
     var shoppingLists: List<ShoppingList> = roomRepository.getShoppingLists()
     val shoppingListsState = savedStateHandle.getStateFlow("shoppingLists", shoppingLists)
+
+    private fun reloadData() {
+        viewModelScope.launch {
+            shoppingLists = roomRepository.getShoppingLists()
+        }
+    }
+
+    init {
+        reloadData()
+    }
 
 
     fun deleteShoppingList(shoppingList: ShoppingList){
@@ -40,7 +50,7 @@ class ShoppingListViewModel(
 
     fun jumpToRecipeFromId(id: String, navigator: DestinationsNavigator){
         viewModelScope.launch {
-            val recipesList = db.getAllRecipes()
+            val recipesList = firestoreRepository.getAllRecipes()
             val recipe = recipesList.filter { it.id == id }
             navigator.navigate(
                 RecipeScreenDestination(

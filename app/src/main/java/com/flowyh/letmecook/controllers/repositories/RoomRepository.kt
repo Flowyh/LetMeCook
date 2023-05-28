@@ -1,6 +1,5 @@
 package com.flowyh.letmecook.controllers.repositories
 
-import android.content.Context
 import androidx.room.*
 import com.flowyh.letmecook.controllers.interfaces.RoomRepositoryDao
 import com.flowyh.letmecook.models.Recipe
@@ -52,7 +51,7 @@ class IngredientsListConverter{
 
 }
 
-@Database(entities = [Recipe::class, ShoppingList::class], version = 2)
+@Database(entities = [Recipe::class, ShoppingList::class], version = 4)
 @TypeConverters(
   RecipeDetailsConverter::class,
   IngredientsListConverter::class

@@ -14,7 +14,7 @@ import java.lang.reflect.Type
 
 @Parcelize
 data class RecipeDetails internal constructor(
-  val bigImage: Int,
+  val bigImage: String,
   val description: String,
   val steps: List<String>,
   val ingredients: List<RecipeIngredient>,
@@ -22,7 +22,7 @@ data class RecipeDetails internal constructor(
 ) : Serializable, Parcelable
 
 fun createRecipeDetails(
-  bigImage: Int = R.drawable.ic_launcher_background,
+  bigImage: String,
   description: String,
   ingredients: List<RecipeIngredient>,
   steps: List<String>,

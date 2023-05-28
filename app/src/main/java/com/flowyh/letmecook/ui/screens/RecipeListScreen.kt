@@ -106,7 +106,9 @@ fun RecipeListScreen(
         }
       )
       Box(
-        modifier = Modifier.pullRefresh(refreshState).zIndex(-1f)
+        modifier = Modifier
+          .pullRefresh(refreshState)
+          .zIndex(-1f)
       ) {
         LazyColumn(
           modifier = Modifier

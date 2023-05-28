@@ -13,13 +13,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.flowyh.letmecook.R
 import com.flowyh.letmecook.models.*
 import com.flowyh.letmecook.ui.components.*
@@ -332,19 +333,24 @@ fun RecipeScreenRating(
   }
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun RecipeScreenImage(
-  image: Int,
+  image: String,
   contentDescription: String
 ) {
-  Image(
-    painter = painterResource(id = image),
+  GlideImage(
+    model = image,
     contentDescription = contentDescription,
     contentScale = ContentScale.Crop,
     modifier = Modifier
       .fillMaxWidth()
       .fillMaxHeight(0.5f)
-  )
+  ) {
+    it.error(R.drawable.ic_launcher_foreground)
+      .placeholder(R.drawable.ic_launcher_background)
+      .load(image)
+  }
 }
 
 @Composable
