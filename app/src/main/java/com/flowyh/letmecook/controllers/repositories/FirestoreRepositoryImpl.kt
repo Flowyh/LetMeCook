@@ -222,7 +222,6 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             .addOnFailureListener { e -> Log.w(TAG, "Error getting document", e) }
             .await()
 
-
         // ----- Get recipe description -----
         val recipeDescription = db.collection("description")
             .document(recipeId)
@@ -230,7 +229,6 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             .addOnSuccessListener { Log.d(TAG, "Document obtained successfully!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error getting document", e) }
             .await()
-
 
         // ----- Get ingredients -----
         db.collection("ingredients_list")
