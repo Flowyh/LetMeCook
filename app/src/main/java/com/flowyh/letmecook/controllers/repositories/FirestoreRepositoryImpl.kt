@@ -12,6 +12,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
+
 class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
     private val db = Firebase.firestore
@@ -85,10 +86,8 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
             // ----- Create RecipeDetails for Recipe -----
             val bodyDescription = recBody.getString("description")!!
-            Log.d(TAG, "BEFORE RECIPEBODY: ${recBody}")
             val bodyImage       = recipe.getString("url_main")!!
-            Log.d(TAG, "AFTER RECIPEBODY: ${recBody}  ||||   ${bodyImage}")
-
+            @Suppress("UNCHECKED_CAST")
             val bodySteps       = recBody.get("steps") as ArrayList<String>
 
 
@@ -176,6 +175,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         // ----- Create RecipeDetails for Recipe -----
         val bodyDescription = recipeBody.getString("description")!!
         val bodyImage       = recipeDescription.getString("url_main")!!
+        @Suppress("UNCHECKED_CAST")
         val bodySteps       = recipeBody.get("steps") as ArrayList<String>
 
 
@@ -253,6 +253,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         // ----- Create RecipeDetails for Recipe -----
         val bodyDescription = recipeBody.getString("description")!!
         val bodyImage       = recipeDescription.getString("url_main")!!
+        @Suppress("UNCHECKED_CAST")
         val bodySteps       = recipeBody.get("steps") as ArrayList<String>
 
 
@@ -348,6 +349,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             // ----- Create RecipeDetails for Recipe -----
             val bodyDescription = recBody.getString("description")!!
             val bodyImage       = recipe.getString("url_main")!!
+            @Suppress("UNCHECKED_CAST")
             val bodySteps       = recBody.get("steps") as ArrayList<String>
 
 
@@ -402,6 +404,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             .await()
 
 
+        @Suppress("UNCHECKED_CAST")
         val filterNames = courseFilters.get("types") as ArrayList<String>
 
         for (name in filterNames) {
@@ -448,6 +451,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
     private fun getRecipeFilters(recBody: DocumentSnapshot): List<RecipeFilter> {
         val filtersList = ArrayList<RecipeFilter>()
+        @Suppress("UNCHECKED_CAST")
         val filtersNames = recBody.get("filters") as ArrayList<String>
 
 

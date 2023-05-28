@@ -6,7 +6,6 @@ import com.flowyh.letmecook.controllers.interfaces.RoomRepositoryDao
 import com.flowyh.letmecook.controllers.repositories.IngredientsListConverter
 import com.flowyh.letmecook.controllers.repositories.RecipeDetailsConverter
 import com.flowyh.letmecook.controllers.repositories.RoomRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

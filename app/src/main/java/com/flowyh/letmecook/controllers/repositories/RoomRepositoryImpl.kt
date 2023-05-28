@@ -14,8 +14,6 @@ class RoomRepositoryImpl @Inject constructor(
 
   fun updateRating(recipe: Recipe) = dao.updateRating(recipe.id, recipe.rating)
 
-  fun deleteAll() = dao.deleteAll(dao.getAll())
-
   fun getShoppingLists() = dao.getAllShoppingLists()
 
   fun updateAlreadyBoughtIngredients(id: Int, alreadyBought: List<Int>) = dao.updateAlreadyBoughtIngredients(id, alreadyBought)
